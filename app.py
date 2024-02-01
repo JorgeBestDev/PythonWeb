@@ -4,8 +4,11 @@ from sqlalchemy import Column, Enum
 from app import create_app,db
 import os
 
-
 app = create_app()
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 with app.app_context():
     db.create_all()
