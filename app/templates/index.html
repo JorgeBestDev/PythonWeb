@@ -1,12 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Online</title>
     <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}">
-    <title>Document</title>
 </head>
 <body>
-    <h1>index</h1>
+    <header>
+        <h1>Tienda Online</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Categoría 1</a></li>
+                <li><a href="#">Categoría 2</a></li>
+                <li><a href="#">Categoría 3</a></li>
+                <li><a href="#">Carrito</a></li>
+            </ul>
+        </nav>
+        
+    </header>
+
+    <main>
+        <aside id="filtros">
+            <h2>Filtros</h2>
+            <div>
+                <label for="categoria">Categoría:</label>
+                <select id="categoria">
+                    <option value="todas">Todas</option>
+                    <option value="categoria1">Categoría 1</option>
+                    <option value="categoria2">Categoría 2</option>
+                    <option value="categoria3">Categoría 3</option>
+                </select>
+            </div>
+            <div>
+                <label for="orden">Orden:</label>
+                <select id="orden">
+                    <option value="alfabetico">Alfabético</option>
+                    <option value="precio-asc">Precio Menor a Mayor</option>
+                    <option value="precio-desc">Precio Mayor a Menor</option>
+                </select>
+            </div>
+        </aside>
+    
+        <section id="productos">
+            <!-- Aquí se mostrarán los productos -->
+            <div class="producto">
+                <img src="{{ url_for('static', filename='images/calzado-air-max-90-2ZsM2w.png') }}" alt="Producto 1">
+                <h3>Nike Air Max 90</h3>
+                <p>Precio: $XX</p>
+                <button>Agregar al carrito</button>
+            </div>
+            <div class="producto">
+                <img src="{{ url_for('static', filename='images/nike-dunk-low-black-white-panda.png') }}" alt="Producto 2">
+                <h3>Nike SB Dunk Low Panda</h3>
+                <p>Precio: $XX</p>
+                <button>Agregar al carrito</button>
+            </div>
+            <div class="producto">
+                <img src="{{ url_for('static', filename='images/zapatillas-dunk-low-nino-a-hDjLTp.png') }}" alt="Producto 3">
+                <h3>NIke SB Dunk Low </h3>
+                <h3>Summit White/Wolf Grey/Light Carbon</h3>
+                <p>Precio: $XX</p>
+                <button>Agregar al carrito</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Tienda Online. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Función para filtrar productos según las opciones seleccionadas
+    function filtrarProductos() {
+        // Obtener valores seleccionados de los filtros
+        var categoria = $("#categoria").val();
+        var orden = $("#orden").val();
+
+        // Filtrar productos según categoría
+        if (categoria !== "todas") {
+            $(".producto").hide();
+            $("." + categoria).show();
+        } else {
+            $(".producto").show();
+        }
+
+        // Ordenar productos según opción seleccionada
+        if (orden === "alfabetico") {
+            $(".producto").sort(function(a, b) {
+                return $(a).find("h3").text().localeCompare($(b).find("h3").text());
+            }).appendTo("#productos");
+        } else if (orden === "precio-asc") {
+            $(".producto").sort(function(a, b) {
+                return parseFloat($(a).find("p").text().replace("Precio: $", "")) - parseFloat($(b).find("p").text().replace("Precio: $", ""));
+            }).appendTo("#productos");
+        } else if (orden === "precio-desc") {
+            $(".producto").sort(function(a, b) {
+                return parseFloat($(b).find("p").text().replace("Precio: $", "")) - parseFloat($(a).find("p").text().replace("Precio: $", ""));
+            }).appendTo("#productos");
+        }
+    }
+
+    // Evento para filtrar productos al cambiar opciones de los filtros
+    $("#categoria, #orden").change(function() {
+        filtrarProductos();
+    });
+
+    // Inicializar filtrado de productos
+    filtrarProductos();
+});
+</script>
 </body>
 </html>
+
