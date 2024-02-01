@@ -2,7 +2,7 @@ from app import db
 
 
 class Pedido(db.Model):
-    __tablename__ = 'pedidos'
+    __tablename__ = 'pedido'
     idPedido = db.Column(db.Integer,  primary_key=True)
     ordenForaneo = db.Column(db.Integer,  db.ForeignKey('orden.idOrden'), nullable=False)
     productoForaneo = db.Column(db.Integer,  db.ForeignKey('producto.idProducto'), nullable=False)
