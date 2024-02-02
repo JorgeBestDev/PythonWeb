@@ -2,3 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+footer {
+    margin-top: auto;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+}
+
+#productos img{
+    width: 100%;
+    aspect-ratio: 3/2;
+    object-fit: contain;
+}
