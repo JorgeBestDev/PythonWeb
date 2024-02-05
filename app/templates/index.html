@@ -7,23 +7,33 @@
     <title>Tienda Online</title>
     <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 
 <body class="flex flex-col min-h-screen">
     <header class="bg-gray-900 text-white p-4">
         <h1 class="text-2xl">Tienda Online</h1>
-        <nav>
-            <ul class="flex">
+        <nav class="items-center flex flex-row justify-between">
+            <input type="checkbox" id="check">
+            <label for="check" class="checkbtn">
+                <i class="fas fa-bars"></i>
+            </label>
+            <ul class="navUl">
                 <li class="mr-4"><a href="#">Inicio</a></li>
                 <li class="mr-4"><a href="#">Categoría 1</a></li>
                 <li class="mr-4"><a href="#">Categoría 2</a></li>
                 <li class="mr-4"><a href="#">Categoría 3</a></li>
                 <li><a href="#">Carrito</a></li>
             </ul>
+            <div>
+                <a class="btn btn-primary" href="#">
+                    <i class="m-1 mr-2 fas fa-user"></i>Iniciar Sesion
+                </a>
+            </div>
         </nav>
     </header>
-    <main class="flex justify-between">
-        <aside id="filtros" class="w-1/4 bg-gray-200 p-4 rounded-lg shadow">
+    <main class="flex flex-col lg:flex-row justify-between flex-1">
+        <aside id="filtros" class="lg:w-1/4 bg-gray-200 p-4 rounded-lg shadow mb-4 lg:mb-0">
             <h2 class="mb-4">Filtros</h2>
             <div class="mb-4">
                 <label for="categoria" class="block font-bold mb-1">Categoría:</label>
@@ -43,14 +53,14 @@
                 </select>
             </div>
         </aside>
-        <section id="productos" class="w-3/4 flex flex-wrap justify-around">
+        <section id="productos" class="lg:w-3/4 flex flex-wrap justify-around">
             <!-- Aquí se mostrarán los productos -->
             <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
                 <img src="{{ url_for('static', filename='images/calzado-air-max-90-2ZsM2w.png') }}" alt="Producto 1"
                     class="w-48 h-48 mx-auto rounded-full">
                 <h3 class="mt-4">Nike Air Max 90</h3>
                 <p>Precio: $XX</p>
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
+                <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
                     carrito</button>
             </div>
             <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
@@ -58,7 +68,7 @@
                     class="w-48 h-48 mx-auto rounded-full">
                 <h3 class="mt-4">Nike SB Dunk Niño</h3>
                 <p>Precio: $XX</p>
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
+                <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
                     carrito</button>
             </div>
             <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
@@ -66,7 +76,7 @@
                     alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
                 <h3 class="mt-4">Nike SB Dunk Panda Low</h3>
                 <p>Precio: $XX</p>
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
+                <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
                     carrito</button>
             </div>
             <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
@@ -74,7 +84,7 @@
                     class="w-48 h-48 mx-auto rounded-full">
                 <h3 class="mt-4">Nike Air Max 90</h3>
                 <p>Precio: $XX</p>
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
+                <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
                     carrito</button>
             </div>
             <!-- Repite el mismo formato para otros productos -->
