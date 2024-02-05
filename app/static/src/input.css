@@ -10,7 +10,7 @@ body {
     margin: 0;
 }
 body.menu-open {
-    overflow: hidden;
+    overflow: scroll;
 }
 
 footer {
@@ -65,14 +65,15 @@ footer {
         display: block;
     }
     .navUl{
-        position: fixed;
+        position: absolute;
         width: 100%;
-        height: 100vh;
+        height: auto;
         background: #212e49; 
         top: 140px;
         left: -100%;
         text-align: center;
         transition: all .5s;
+        border-radius: 5px;
     }
     .navUl li{
         display: block;
