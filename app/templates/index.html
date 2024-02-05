@@ -32,8 +32,8 @@
             </div>
         </nav>
     </header>
-    <main class="flex flex-col lg:flex-row justify-between flex-1">
-        <aside id="filtros" class="lg:w-1/4 bg-gray-200 p-4 rounded-lg shadow mb-4 lg:mb-0">
+    <main class="mt-16 mb-16 flex flex-col lg:flex-row justify-between flex-1">
+        <aside id="filtros" class="mr-10 ml-10 lg:w-1/4 bg-gray-200 p-4 rounded-lg shadow mb-4 lg:mb-0">
             <h2 class="mb-4">Filtros</h2>
             <div class="mb-4">
                 <label for="categoria" class="block font-bold mb-1">Categoría:</label>
@@ -53,42 +53,47 @@
                 </select>
             </div>
         </aside>
-        <section id="productos" class="lg:w-3/4 flex flex-wrap justify-around">
-            <!-- Aquí se mostrarán los productos -->
-            <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
-                <img src="{{ url_for('static', filename='images/calzado-air-max-90-2ZsM2w.png') }}" alt="Producto 1"
-                    class="w-48 h-48 mx-auto rounded-full">
-                <h3 class="mt-4">Nike Air Max 90</h3>
-                <p>Precio: $XX</p>
-                <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
-                    carrito</button>
-            </div>
-            <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
-                <img src="{{ url_for('static', filename='images/zapatillas-dunk-low-nino-a-hDjLTp.png') }}"
-                    alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
-                <h3 class="mt-4">Nike SB Dunk Niño</h3>
-                <p>Precio: $XX</p>
-                <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
-                    carrito</button>
-            </div>
-            <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
-                <img src="{{ url_for('static', filename='images/nike-dunk-low-black-white-panda.png') }}"
-                    alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
-                <h3 class="mt-4">Nike SB Dunk Panda Low</h3>
-                <p>Precio: $XX</p>
-                <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
-                    carrito</button>
-            </div>
-            <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
-                <img src="{{ url_for('static', filename='images/air-jordan-1-retro-high-og-sp-travis-scott-fragment-military-blue.png') }}"
-                    alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
-                <h3 class="mt-4">Nike Air Max 90</h3>
-                <p>Precio: $XX</p>
-                <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
-                    carrito</button>
-            </div>
-            <!-- Repite el mismo formato para otros productos -->
-        </section>
+        <div class="w-full mr-38">
+            <h1 class="text-3xl m-7">Zapatillas Nike</h1>
+            <section id="productos" class="lg:w-full flex flex-wrap justify-around">
+                <!-- Aquí se mostrarán los productos -->
+                <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
+                    <img src="{{ url_for('static', filename='images/calzado-air-max-90-2ZsM2w.png') }}" alt="Producto 1"
+                        class="w-48 h-48 mx-auto rounded-full">
+                    <h3 class="mt-4">Nike Air Max 90</h3>
+                    <p>Precio: $XX</p>
+                    <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
+                        carrito</button>
+                </div>
+                <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
+                    <img src="{{ url_for('static', filename='images/zapatillas-dunk-low-nino-a-hDjLTp.png') }}"
+                        alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
+                    <h3 class="mt-4">Nike SB Dunk Niño</h3>
+                    <p>Precio: $XX</p>
+                    <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
+                        carrito</button>
+                </div>
+                <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
+                    <img src="{{ url_for('static', filename='images/nike-dunk-low-black-white-panda.png') }}"
+                        alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
+                    <h3 class="mt-4">Nike SB Dunk Panda Low</h3>
+                    <p>Precio: $XX</p>
+                    <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
+                        carrito</button>
+                </div>
+                <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
+                    <img src="{{ url_for('static', filename='images/air-jordan-1-retro-high-og-sp-travis-scott-fragment-military-blue.png') }}"
+                        alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
+                    <h3 class="mt-4">Nike Air Max 90</h3>
+                    <p>Precio: $XX</p>
+                    <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
+                        carrito</button>
+                </div>
+                <!-- Repite el mismo formato para otros productos -->
+            </section>
+        </div>
+        
+
     </main>
     <footer class="bg-gray-900 text-white text-center py-4">
         <p>&copy; 2024 Tienda Online. Todos los derechos reservados.</p>
