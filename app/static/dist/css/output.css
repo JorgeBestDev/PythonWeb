@@ -727,6 +727,10 @@ body {
   margin: 0;
 }
 
+body.menu-open {
+  overflow: hidden;
+}
+
 footer {
   margin-top: auto;
   background-color: #333;
