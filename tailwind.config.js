@@ -5,7 +5,11 @@ module.exports = {
     "./app/static/src/**/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      aspectRatio: {
+        '3/2': '3 / 2',
+      },
+    },
   },
   plugins: [],
 }

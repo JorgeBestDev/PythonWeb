@@ -11,95 +11,118 @@
 </head>
 
 <body class="flex flex-col min-h-screen">
-    <header class="bg-gray-900 text-white p-4">
+    <header class="bg-white w-full text-black px-4 pt-4">
         <h1 class="text-2xl">Tienda Online</h1>
         <nav class="items-center flex flex-row justify-between">
             <input type="checkbox" id="check">
             <label for="check" class="checkbtn">
-                <i class="fas fa-bars"></i>
+                <i class="fa-solid fa-bars"></i>
             </label>
             <ul class="navUl">
-                <li class="mr-4"><a href="#">Inicio</a></li>
-                <li class="mr-4"><a href="#">Categoría 1</a></li>
-                <li class="mr-4"><a href="#">Categoría 2</a></li>
-                <li class="mr-4"><a href="#">Categoría 3</a></li>
+                <li class=""><a href="#">Inicio</a></li>
+                <li class=""><a href="#">Categoría 1</a></li>
+                <li class=""><a href="#">Categoría 2</a></li>
+                <li class=""><a href="#">Categoría 3</a></li>
                 <li><a href="#">Carrito</a></li>
             </ul>
             <div>
-                <a class="mr-6 btn btn-primary" href="#">
+                <a class="mr-6 btn btn-primary hover:bg-gray-300 p-7 rounded transition " href="#">
                     <i class="m-1 mr-2 fas fa-user"></i>Iniciar Sesion
                 </a>
             </div>
         </nav>
     </header>
-    <main class="mt-16 mb-16 flex flex-col lg:flex-row justify-between flex-1">
-        <aside id="filtros" class="mr-10 ml-10 lg:w-1/4 bg-gray-200 p-4 rounded-lg shadow mb-4 lg:mb-0">
-            <h2 class="mb-4">Filtros</h2>
-            <div class="mb-4">
-                <label for="categoria" class="block font-bold mb-1">Categoría:</label>
-                <select id="categoria" class="w-full px-4 py-2 border rounded-lg">
-                    <option value="todas">Todas</option>
-                    <option value="categoria1">Categoría 1</option>
-                    <option value="categoria2">Categoría 2</option>
-                    <option value="categoria3">Categoría 3</option>
-                </select>
+
+    <main class="w-full">
+        <article class="w-full h-full overflow-hidden">
+            <div class="gallery sm:m-5 lg:m-auto md:m-auto xl:m-auto ">
+                <div class="max-w-screen-lg gallery-container">
+                    <img class="gallery-item sm: gallery-item-1" src="{{ url_for('static', filename='images/adidasestrellas.jpg') }}" alt="">
+                    <img class="gallery-item gallery-item-2" src="{{ url_for('static', filename='images/airforceone.jpg') }}" alt="">
+                    <img class="gallery-item gallery-item-3" src="{{ url_for('static', filename='images/airjordan.jpg') }}" alt="">
+                    <img class="gallery-item gallery-item-4" src="{{ url_for('static', filename='images/allOrNothing.jpg') }}" alt="">
+                    <img class="gallery-item gallery-item-5" src="{{ url_for('static', filename='images/nike-shoes-sale.jpg') }}" alt="">
+                    <!--<img class="gallery-item gallery-item-6" src="{{ url_for('static', filename='images/puma20years.jpg') }}" alt="">
+                    <img class="gallery-item gallery-item-7" src="{{ url_for('static', filename='images/pumauntied.png') }}" alt="">
+                    <img class="gallery-item gallery-item-8" src="{{ url_for('static', filename='images/superstar.jpg') }}" alt="">-->
+                </div>
+                <div class="gallery-control"></div>
             </div>
-            <div>
-                <label for="orden" class="block font-bold mb-1">Orden:</label>
-                <select id="orden" class="w-full px-4 py-2 border rounded-lg">
-                    <option value="alfabetico">Alfabético</option>
-                    <option value="precio-asc">Precio Menor a Mayor</option>
-                    <option value="precio-desc">Precio Mayor a Menor</option>
-                </select>
+        </article>
+
+        <div class="mt-16 mb-16 flex flex-col lg:flex-row justify-between flex-1">
+            <aside id="filtros" class="mr-10 ml-10 lg:w-1/4 bg-gray-200 p-4 rounded-lg shadow mb-4 lg:mb-0">
+                <h2 class="mb-4">Filtros</h2>
+                <div class="mb-4">
+                    <label for="categoria" class="block font-bold mb-1">Categoría:</label>
+                    <select id="categoria" class="w-full px-4 py-2 border rounded-lg">
+                        <option value="todas">Todas</option>
+                        <option value="categoria1">Categoría 1</option>
+                        <option value="categoria2">Categoría 2</option>
+                        <option value="categoria3">Categoría 3</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="orden" class="block font-bold mb-1">Orden:</label>
+                    <select id="orden" class="w-full px-4 py-2 border rounded-lg">
+                        <option value="alfabetico">Alfabético</option>
+                        <option value="precio-asc">Precio Menor a Mayor</option>
+                        <option value="precio-desc">Precio Mayor a Menor</option>
+                    </select>
+                </div>
+            </aside>
+            <div class="w-full mr-38">
+                <h1 class="text-3xl m-7">Zapatillas Nike</h1>
+                <section id="productos" class="lg:w-full flex flex-wrap justify-around">
+                    <!-- Aquí se mostrarán los productos -->
+                    <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
+                        <img src="{{ url_for('static', filename='images/calzado-air-max-90-2ZsM2w.png') }}"
+                            alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
+                        <h3 class="mt-4">Nike Air Max 90</h3>
+                        <p>Precio: $XX</p>
+                        <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar
+                            al
+                            carrito</button>
+                    </div>
+                    <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
+                        <img src="{{ url_for('static', filename='images/zapatillas-dunk-low-nino-a-hDjLTp.png') }}"
+                            alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
+                        <h3 class="mt-4">Nike SB Dunk Niño</h3>
+                        <p>Precio: $XX</p>
+                        <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar
+                            al
+                            carrito</button>
+                    </div>
+                    <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
+                        <img src="{{ url_for('static', filename='images/nike-dunk-low-black-white-panda.png') }}"
+                            alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
+                        <h3 class="mt-4">Nike SB Dunk Panda Low</h3>
+                        <p>Precio: $XX</p>
+                        <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar
+                            al
+                            carrito</button>
+                    </div>
+                    <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
+                        <img src="{{ url_for('static', filename='images/air-jordan-1-retro-high-og-sp-travis-scott-fragment-military-blue.png') }}"
+                            alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
+                        <h3 class="mt-4">Nike Air Max 90</h3>
+                        <p>Precio: $XX</p>
+                        <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar
+                            al
+                            carrito</button>
+                    </div>
+                    <!-- Repite el mismo formato para otros productos -->
+                </section>
             </div>
-        </aside>
-        <div class="w-full mr-38">
-            <h1 class="text-3xl m-7">Zapatillas Nike</h1>
-            <section id="productos" class="lg:w-full flex flex-wrap justify-around">
-                <!-- Aquí se mostrarán los productos -->
-                <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
-                    <img src="{{ url_for('static', filename='images/calzado-air-max-90-2ZsM2w.png') }}" alt="Producto 1"
-                        class="w-48 h-48 mx-auto rounded-full">
-                    <h3 class="mt-4">Nike Air Max 90</h3>
-                    <p>Precio: $XX</p>
-                    <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
-                        carrito</button>
-                </div>
-                <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
-                    <img src="{{ url_for('static', filename='images/zapatillas-dunk-low-nino-a-hDjLTp.png') }}"
-                        alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
-                    <h3 class="mt-4">Nike SB Dunk Niño</h3>
-                    <p>Precio: $XX</p>
-                    <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
-                        carrito</button>
-                </div>
-                <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
-                    <img src="{{ url_for('static', filename='images/nike-dunk-low-black-white-panda.png') }}"
-                        alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
-                    <h3 class="mt-4">Nike SB Dunk Panda Low</h3>
-                    <p>Precio: $XX</p>
-                    <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
-                        carrito</button>
-                </div>
-                <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
-                    <img src="{{ url_for('static', filename='images/air-jordan-1-retro-high-og-sp-travis-scott-fragment-military-blue.png') }}"
-                        alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
-                    <h3 class="mt-4">Nike Air Max 90</h3>
-                    <p>Precio: $XX</p>
-                    <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar al
-                        carrito</button>
-                </div>
-                <!-- Repite el mismo formato para otros productos -->
-            </section>
         </div>
-        
+
+
 
     </main>
-    <footer class="bg-gray-900 text-white text-center py-4">
+    <footer class="bg-gray-900 w-full text-white text-center py-4">
         <p>&copy; 2024 Tienda Online. Todos los derechos reservados.</p>
     </footer>
 
-    <script src="script.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
