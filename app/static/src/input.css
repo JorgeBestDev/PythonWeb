@@ -117,66 +117,25 @@ footer {
     opacity: 4;
     transform: translateX(-50%);
 }
-.gallery-control{
-    display: flex;
-    justify-content: center;
-    margin: 25px 0;
-    height: 100px;
-}
-.gallery-control button{
-    background-color: transparent;
-    border: 0;
-    cursor: pointer;
-    font-size: 30px;
-    margin: 0 50px;
-    padding: 0 12px;
-    text-transform: capitalize;
-}
-.gallery-control-button:focus{
-    outline: none;
-}
-.gallery-control-previus{
-    position: relative;
-}
-.gallery-control-previus::before{
-    border: solid;
-    border-width: 0 5px 5px 0;
-    content: '';
-    display: inline-block;
-    height: 5px;
-    left: -30px;
-    padding: 10px;
-    position: absolute;
-    top: 25%;
-    transform: rotate(135deg)translateY(-50%);
-    transition: left 0.15s ease-in-out;
-    width: 5px;
+.gallery-item-6{
+    left: 10%;
+    opacity: 0;
+    transform: translateX(-50%);
 }
 
-.gallery-control-previus:hover::before{
-    left: -40%;
-}
-.gallery-control-next{
-    position: relative;
-}
-.gallery-control-next::before{
-    border: solid #000;
-    border-width: 0 5px 5px 0;
-    content: '';
-    display: inline-block;
-    height: 5px;
-    padding: 10px;
-    position: absolute;
-    right: -30px;
-    top: 45%;
-    transform: rotate(-45deg) translateY(-50%);
-    transition: right 0.15s ease-in-out;
-    width: 5px;
+.gallery-item-7{
+    left: 45%;
+    opacity: 0;
+    transform: translateX(-50%);
 }
 
-.gallery-control-next:hover::before{
-    right: -40%;
+.gallery-item-8{
+    left: 90%;
+    opacity: 0;
+    transform: translateX(-50%);
 }
+
+
 .gallery-nav{
     bottom: -15px;
     display: flex;
@@ -225,12 +184,21 @@ footer {
     .checkbtn{
         display: block;
     }
+    .slider{
+        transition: all .5s;
+    }
+    .slider-move-out {
+        transition: all .5s;
+        transform: translateX(100%);
+    }
+    
     .navUl{
         position: absolute;
         width: 98%;
         height: auto;
-        background: #212e49; 
-        top: 140px;
+        background: #fff; 
+        box-shadow: -2px 5px 15px 6px rgba(0,0,0,0.35);
+        top: 120px;
         left: -105%;
         text-align: center;
         transition: all .5s;
@@ -251,6 +219,7 @@ footer {
     #check:checked ~.navUl{
         left: 0;
     }
+    
 }
 @media (max-width: 652px){
     .gallery-item{

@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda Online</title>
     <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">    
+    <script src="https://kit.fontawesome.com/1a141f7f1f.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body class="flex flex-col min-h-screen">
@@ -16,7 +17,7 @@
         <nav class="items-center flex flex-row justify-between">
             <input type="checkbox" id="check">
             <label for="check" class="checkbtn">
-                <i class="fa-solid fa-bars"></i>
+                <i class="fa-solid fa-bars-staggered" style="color: #000000;"></i>
             </label>
             <ul class="navUl">
                 <li class=""><a href="#">Inicio</a></li>
@@ -34,7 +35,7 @@
     </header>
 
     <main class="w-full">
-        <article class="w-full h-full overflow-hidden">
+        <article class="slider w-full h-full overflow-hidden">
             <div class="gallery sm:m-auto lg:m-auto md:m-auto xl:m-auto ">
                 <div class="gallery-container max-w-screen-lg ">
                     <img class="gallery-item gallery-item-1"
@@ -47,11 +48,13 @@
                         src="{{ url_for('static', filename='images/allOrNothing.jpg') }}" alt="">
                     <img class="gallery-item gallery-item-5"
                         src="{{ url_for('static', filename='images/nike-shoes-sale.jpg') }}" alt="">
-                    <!--<img class="gallery-item gallery-item-6" src="{{ url_for('static', filename='images/puma20years.jpg') }}" alt="">
-                    <img class="gallery-item gallery-item-7" src="{{ url_for('static', filename='images/pumauntied.png') }}" alt="">
-                    <img class="gallery-item gallery-item-8" src="{{ url_for('static', filename='images/superstar.jpg') }}" alt="">-->
+                    <img class="gallery-item gallery-item-6"
+                        src="{{ url_for('static', filename='images/puma20years.jpg') }}" alt="">
+                    <img class="gallery-item gallery-item-7"
+                        src="{{ url_for('static', filename='images/pumauntied.png') }}" alt="">
+                    <img class="gallery-item gallery-item-8"
+                        src="{{ url_for('static', filename='images/superstar.jpg') }}" alt="">
                 </div>
-                <div class="gallery-control"></div>
             </div>
         </article>
 
@@ -172,9 +175,11 @@
     </script>
     <script>
         $(document).ready(function () {
+            
             // Función para abrir y cerrar el menú desplegable
             function toggleMenu() {
                 $('body').toggleClass('menu-open');
+                $('.slider').toggleClass('slider-move-out');             
             }
 
             // Evento para abrir y cerrar el menú al hacer clic en el icono de hamburguesa

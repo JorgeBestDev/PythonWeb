@@ -1,13 +1,15 @@
 const galleryContainer = document.querySelector('.gallery-container');
-const galleryControlContainer = document.querySelector('.gallery-control');
-const galleryControl = ['previus','next'];
 const galleryItems = document.querySelectorAll('.gallery-item');
 
+
+
 class Carousel {
-    constructor(container, items, control) {
+    constructor(container, items) {
         this.carouselContainer = container;
-        this.carouselControl = control;
         this.carouselArray = [...items];
+        this.currentIndex = 0;
+        this.totalItems = this.carouselArray.length;
+        this.autoAdvanceInterval = null;
     }
 
     updateGallery() {
@@ -17,39 +19,31 @@ class Carousel {
             el.classList.remove('gallery-item-3');
             el.classList.remove('gallery-item-4');
             el.classList.remove('gallery-item-5');
+            el.classList.remove('gallery-item-6');
+            el.classList.remove('gallery-item-7');
+            el.classList.remove('gallery-item-8');
         });
-        this.carouselArray.slice(0, 5).forEach((el, i) => {
+        this.carouselArray.slice(0, 8).forEach((el, i) => {
             el.classList.add(`gallery-item-${i + 1}`);
         });
     }
 
     setCurrentState(direction) {
-        if (direction.className == 'gallery-control-previus') {
+        if (direction === 'previus') {
             this.carouselArray.push(this.carouselArray.shift());
         } else {
             this.carouselArray.unshift(this.carouselArray.pop());
         }
         this.updateGallery();
     }
-
-    setControl() {
-        this.carouselControl.forEach(control => {
-            galleryControlContainer.appendChild(document.createElement('button')).className = `gallery-control-${control}`;
-            document.querySelector(`.gallery-control-${control}`).innerText=control;
-        });
-    }
-
-    useControl() {
-        const triggers = [...galleryControlContainer.childNodes];
-        triggers.forEach(control => {
-            control.addEventListener('click', e => {
-                e.preventDefault();
-                this.setCurrentState(control);
-            });
-        });
+    
+    autoAdvance() {
+        const time=2000;
+        this.autoAdvanceInterval = setInterval(() => {
+            this.setCurrentState('next');
+        }, time); // Cambia de slide cada 2 segundos
     }
 }
 
-const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryControl);
-exampleCarousel.setControl();
-exampleCarousel.useControl();
+const exampleCarousel = new Carousel(galleryContainer, galleryItems);
+exampleCarousel.autoAdvance(); // Inicia el avance automático de los slides
