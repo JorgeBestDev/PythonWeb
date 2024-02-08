@@ -26,7 +26,7 @@
                 <li><a href="#">Carrito</a></li>
             </ul>
             <div>
-                <a class="mr-6 btn btn-primary hover:bg-gray-300 p-7 rounded transition " href="#">
+                <a class="btn btn-primary hover:bg-gray-300 p-7 rounded transition " href="#">
                     <i class="m-1 mr-2 fas fa-user"></i>Iniciar Sesion
                 </a>
             </div>
@@ -35,13 +35,18 @@
 
     <main class="w-full">
         <article class="w-full h-full overflow-hidden">
-            <div class="gallery sm:m-5 lg:m-auto md:m-auto xl:m-auto ">
-                <div class="max-w-screen-lg gallery-container">
-                    <img class="gallery-item sm: gallery-item-1" src="{{ url_for('static', filename='images/adidasestrellas.jpg') }}" alt="">
-                    <img class="gallery-item gallery-item-2" src="{{ url_for('static', filename='images/airforceone.jpg') }}" alt="">
-                    <img class="gallery-item gallery-item-3" src="{{ url_for('static', filename='images/airjordan.jpg') }}" alt="">
-                    <img class="gallery-item gallery-item-4" src="{{ url_for('static', filename='images/allOrNothing.jpg') }}" alt="">
-                    <img class="gallery-item gallery-item-5" src="{{ url_for('static', filename='images/nike-shoes-sale.jpg') }}" alt="">
+            <div class="gallery sm:m-auto lg:m-auto md:m-auto xl:m-auto ">
+                <div class="gallery-container max-w-screen-lg ">
+                    <img class="gallery-item gallery-item-1"
+                        src="{{ url_for('static', filename='images/adidasestrellas.jpg') }}" alt="">
+                    <img class="gallery-item gallery-item-2"
+                        src="{{ url_for('static', filename='images/airforceone.jpg') }}" alt="">
+                    <img class="gallery-item gallery-item-3"
+                        src="{{ url_for('static', filename='images/airjordan.jpg') }}" alt="">
+                    <img class="gallery-item gallery-item-4"
+                        src="{{ url_for('static', filename='images/allOrNothing.jpg') }}" alt="">
+                    <img class="gallery-item gallery-item-5"
+                        src="{{ url_for('static', filename='images/nike-shoes-sale.jpg') }}" alt="">
                     <!--<img class="gallery-item gallery-item-6" src="{{ url_for('static', filename='images/puma20years.jpg') }}" alt="">
                     <img class="gallery-item gallery-item-7" src="{{ url_for('static', filename='images/pumauntied.png') }}" alt="">
                     <img class="gallery-item gallery-item-8" src="{{ url_for('static', filename='images/superstar.jpg') }}" alt="">-->
@@ -122,7 +127,7 @@
     <footer class="bg-gray-900 w-full text-white text-center py-4">
         <p>&copy; 2024 Tienda Online. Todos los derechos reservados.</p>
     </footer>
-
+    <script src="{{ url_for('static', filename='/dist/js/script.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {

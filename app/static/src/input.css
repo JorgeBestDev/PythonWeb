@@ -64,7 +64,6 @@ footer {
 }
 
 .gallery{
-    margin-top: 100px;
     width: 100%;
 }
 .gallery-container{
@@ -118,13 +117,13 @@ footer {
     opacity: 4;
     transform: translateX(-50%);
 }
-.gallery.controls{
+.gallery-control{
     display: flex;
     justify-content: center;
     margin: 25px 0;
     height: 100px;
 }
-.gallery.controls button{
+.gallery-control button{
     background-color: transparent;
     border: 0;
     cursor: pointer;
@@ -133,13 +132,13 @@ footer {
     padding: 0 12px;
     text-transform: capitalize;
 }
-.gallery.controls-button:focus{
+.gallery-control-button:focus{
     outline: none;
 }
-.gallery.controls-previus{
+.gallery-control-previus{
     position: relative;
 }
-.gallery.controls-previus::before{
+.gallery-control-previus::before{
     border: solid;
     border-width: 0 5px 5px 0;
     content: '';
@@ -154,13 +153,13 @@ footer {
     width: 5px;
 }
 
-.gallery.controls-previus::hover::before{
+.gallery-control-previus:hover::before{
     left: -40%;
 }
-.gallery.controls-next{
+.gallery-control-next{
     position: relative;
 }
-.gallery.gallery.controls-next::before{
+.gallery-control-next::before{
     border: solid #000;
     border-width: 0 5px 5px 0;
     content: '';
@@ -169,13 +168,13 @@ footer {
     padding: 10px;
     position: absolute;
     right: -30px;
-    top: 45;
+    top: 45%;
     transform: rotate(-45deg) translateY(-50%);
     transition: right 0.15s ease-in-out;
     width: 5px;
 }
 
-.gallery.controls-next:hover::before{
+.gallery-control-next:hover::before{
     right: -40%;
 }
 .gallery-nav{
@@ -256,7 +255,7 @@ footer {
 @media (max-width: 652px){
     .gallery-item{
         margin: auto;
-        width: 75%;
+        width: 85%;
         object-fit: cover;
     }
 }
