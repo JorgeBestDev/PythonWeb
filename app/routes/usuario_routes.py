@@ -9,3 +9,7 @@ bp = Blueprint('usuario', __name__)
 def index():
     Usuario = Usuario.query.all()
     return render_template('usuario/index.html', Usuario=Usuario)
+
+@bp.route('/auth')
+def registerLogin():
+    return render_template('auth/register-login.html')

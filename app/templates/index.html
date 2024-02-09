@@ -28,12 +28,12 @@
             </ul>
             <div class="flex flex-row justify-between">
                 <div>
-                    <a class="btn btn-primary hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition " href="#">
+                    <a class="btn btn-primary hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition " href="">
                         <i class="m-1 mr-2 fa-solid fa-plus" style="color: #000000;"></i>Registro
                     </a>
                 </div>
                 <div>
-                    <a class="btn btn-primary hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition " href="#">
+                    <a class="btn btn-primary hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition " href="">
                         <i class="m-1 mr-2 fas fa-user"></i>Iniciar Sesion
                     </a>
                 </div>
@@ -138,7 +138,7 @@
     <footer class="bg-gray-900 w-full text-white text-center py-4">
         <p>&copy; 2024 Tienda Online. Todos los derechos reservados.</p>
     </footer>
-    <script src="{{ url_for('static', filename='/dist/js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='dist/js/script.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -189,14 +189,9 @@
             const activo=0;
             // Función para abrir y cerrar el menú desplegable
             function openMenu() {
-                $('body').addClass('menu-open');
+                $('body').toggleClass('menu-open');
                 $('.slider').toggleClass('slider-move-out');    
                 activo==1;
-            }
-            function closeMenu() {
-                $('body').removeClass('menu-open');
-                $('.slider').toggleClass('slider-move-out');    
-                activo==0;
             }
             
             // Evento para abrir y cerrar el menú al hacer clic en el icono de hamburguesa
@@ -206,14 +201,6 @@
                     activo==1;
                 }
                     
-            });
-
-            // Evento para cerrar el menú al hacer clic en un enlace del menú
-            $('.navUl li a').click(function () {
-                if (activo==1){
-                    closeMenu();
-                    activo==0;
-                }
             });
         });
     </script>

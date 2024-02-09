@@ -13,8 +13,8 @@ body {
     width: 100%;
 
 }
-body.menu-open {
-    overflow-x: scroll;
+body .menu-open {
+    overflow: hidden;
 }
 
 footer {
