@@ -59,7 +59,13 @@ class Usuario(Base):
     contraseñaUsuario = Column(String(255), nullable=False)
     payment_method_id = Column(Integer, ForeignKey('paymentMethod.idPaymentMethod'))
     orden = relationship('Orden', backref='usuario', lazy='dynamic')
-    
+
+class Pais(Base):
+    __tablename__ = 'pais'
+    idPais = Column(Integer, primary_key=True)
+    nombrePais = Column(String(255), nullable=False)
+    usuario = relationship('Usuario', backref='pais', lazy='dynamic')
+
 # Modificar la URL de conexión para MySQL
 # Sustituye 'usuario', 'contraseña', 'localhost' y 'nombre_de_base_de_datos' con tus propios valores
 engine = create_engine('mysql+pymysql://root:BeDdh5AEHg23fGbEGca4-Dbb3ch6DC2e@viaduct.proxy.rlwy.net:15114/proyecto_formativo')

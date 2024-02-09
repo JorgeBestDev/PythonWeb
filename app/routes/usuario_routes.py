@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify
+from flask import Blueprint, render_template, session
 from app import db
 from app.models.usuario import Usuario
 
@@ -11,5 +11,11 @@ def index():
     return render_template('usuario/index.html', Usuario=Usuario)
 
 @bp.route('/auth')
-def registerLogin():
-    return render_template('auth/register-login.html')
+def register():
+    return render_template('auth/register.html')
+
+
+@bp.route('/dashboard')
+def dashboard():
+    is_session_active = 'username' in session
+    return render_template('index.html', is_session_active=is_session_active)

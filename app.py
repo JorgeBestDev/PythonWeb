@@ -6,6 +6,7 @@ import os
 
 app = create_app()
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
