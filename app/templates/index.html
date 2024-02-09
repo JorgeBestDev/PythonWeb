@@ -20,21 +20,29 @@
                 <i class="fa-solid fa-bars-staggered" style="color: #000000;"></i>
             </label>
             <ul class="navUl">
-                <li class=""><a href="#">Inicio</a></li>
-                <li class=""><a href="#">Categoría 1</a></li>
-                <li class=""><a href="#">Categoría 2</a></li>
-                <li class=""><a href="#">Categoría 3</a></li>
-                <li><a href="#">Carrito</a></li>
+                <li class="btn btn-primary hover:bg-gray-300 lg:text-lg sm:text-base rounded transition "><a href="#">Inicio</a></li>
+                <li class="btn btn-primary hover:bg-gray-300 lg:text-lg sm:text-base rounded transition "><a href="#">Categoría 1</a></li>
+                <li class="btn btn-primary hover:bg-gray-300 lg:text-lg sm:text-base rounded transition "><a href="#">Categoría 2</a></li>
+                <li class="btn btn-primary hover:bg-gray-300 lg:text-lg sm:text-base rounded transition "><a href="#">Categoría 3</a></li>
+                <li class="btn btn-primary hover:bg-gray-300 lg:text-lg sm:text-base rounded transition "><a href="#">Carrito</a></li>
             </ul>
-            <div>
-                <a class="btn btn-primary hover:bg-gray-300 p-7 rounded transition " href="#">
-                    <i class="m-1 mr-2 fas fa-user"></i>Iniciar Sesion
-                </a>
+            <div class="flex flex-row justify-between">
+                <div>
+                    <a class="btn btn-primary hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition " href="#">
+                        <i class="m-1 mr-2 fa-solid fa-plus" style="color: #000000;"></i>Registro
+                    </a>
+                </div>
+                <div>
+                    <a class="btn btn-primary hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition " href="#">
+                        <i class="m-1 mr-2 fas fa-user"></i>Iniciar Sesion
+                    </a>
+                </div>
             </div>
+            
         </nav>
     </header>
 
-    <main class="w-full">
+    <main class="main w-full">
         <article class="slider w-full h-full overflow-hidden">
             <div class="gallery sm:m-auto lg:m-auto md:m-auto xl:m-auto ">
                 <div class="gallery-container max-w-screen-lg ">
@@ -174,22 +182,38 @@
         });
     </script>
     <script>
+        
+    </script>
+    <script>
         $(document).ready(function () {
-            
+            const activo=0;
             // Función para abrir y cerrar el menú desplegable
-            function toggleMenu() {
-                $('body').toggleClass('menu-open');
-                $('.slider').toggleClass('slider-move-out');             
+            function openMenu() {
+                $('body').addClass('menu-open');
+                $('.slider').toggleClass('slider-move-out');    
+                activo==1;
             }
-
+            function closeMenu() {
+                $('body').removeClass('menu-open');
+                $('.slider').toggleClass('slider-move-out');    
+                activo==0;
+            }
+            
             // Evento para abrir y cerrar el menú al hacer clic en el icono de hamburguesa
             $('.checkbtn').click(function () {
-                toggleMenu();
+                if(activo==0){
+                    openMenu();
+                    activo==1;
+                }
+                    
             });
 
             // Evento para cerrar el menú al hacer clic en un enlace del menú
             $('.navUl li a').click(function () {
-                toggleMenu();
+                if (activo==1){
+                    closeMenu();
+                    activo==0;
+                }
             });
         });
     </script>
