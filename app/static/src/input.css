@@ -10,8 +10,10 @@ body {
     align-items: center;
     margin: 0;
     padding: 0;
-    width: 100%;
-
+    width: -webkit-fill-available;
+}
+main{
+    width: -webkit-fill-available;
 }
 body .menu-open {
     overflow: hidden;

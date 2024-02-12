@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, session
+from flask import Blueprint, render_template, session, flash, request, redirect, url_for
+from flask_login import login_user, logout_user, login_required, current_user
 from app import db
 from app.models.usuario import Usuario
 
@@ -10,9 +11,17 @@ def index():
     Usuario = Usuario.query.all()
     return render_template('usuario/index.html', Usuario=Usuario)
 
-@bp.route('/auth')
+@bp.route('/register')
 def register():
     return render_template('auth/register.html')
+
+@bp.route('/login')
+def login():
+    return render_template('auth/login.html')
+
+    
+
+        
 
 
 @bp.route('/dashboard')
