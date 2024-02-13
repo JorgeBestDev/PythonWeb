@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session, flash, request, redirect, url_for
-from flask_login import login_user, logout_user, login_required, current_user
+#from flask_login import login_user, logout_user, login_required, current_user
 from app import db
 from app.models.usuario import Usuario
 
@@ -15,9 +15,16 @@ def index():
 def register():
     return render_template('auth/register.html')
 
-@bp.route('/login')
+@bp.route('/login', methods=['GET', 'POST'])
 def login():
     return render_template('auth/login.html')
+#    if request.method == 'POST':
+#        username = request.form['fUsuario']
+#        password = request.form['fContraseña']
+        
+#        return render_template('auth/login.html')
+#    else:
+#        return render_template('auth/login.html')
 
     
 
