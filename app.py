@@ -1,9 +1,6 @@
 from flask import Flask, render_template,session
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Enum
 from flask_login import LoginManager
 from app import create_app,db
-from datetime import timedelta
 import os
 import secrets
 import string
@@ -15,14 +12,7 @@ def generate_secret_key(length=32):
 secret_key = generate_secret_key()
 
 app = create_app()
-app.config['SECRET_KEY'] = 'claveSecreta'
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=365)
 
-
-@app.route('/')
-def index():
-    username = session.get('username')
-    return render_template('index.html', username=username)
 
 with app.app_context():
     db.create_all()

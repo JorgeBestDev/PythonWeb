@@ -53,7 +53,6 @@ footer {
     color: #fff;
     float: right;
     line-height: 80px;
-    margin-right: 40px;
     cursor: pointer;
     display: none;
 }
@@ -153,7 +152,9 @@ footer {
 .gallery-nav li.gallery-item-selected{
     background:#555; 
 }
-
+.max-w-8xl{
+    max-width: 90rem;
+}
 
 
 .producto{
@@ -222,6 +223,29 @@ footer {
         left: 0;
     }
     
+}
+@media (max-width: 280px){
+    .galaxyFoldResponsive{
+        display: flex;
+        flex-direction: column;
+    }
+    .galaxyFoldCarrito{
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        justify-content: center;
+    }
+    .navUl{
+        position: absolute;
+        width: 98%;
+        height: auto;
+        box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+        background: #f5f5f5; 
+        top: 200px;
+        left: -105%;
+        text-align: center;
+        transition: all .5s;
+        border-radius: 5px;
+    }
 }
 @media (max-width: 652px){
     .gallery-item{

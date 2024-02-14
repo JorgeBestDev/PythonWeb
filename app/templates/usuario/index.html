@@ -1,13 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tienda Online</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/1a141f7f1f.js" crossorigin="anonymous"></script>
+
 </head>
-<body>
-    <h1>
-        {{ username }}
-    </h1>
+
+<body class="flex flex-col min-h-screen">
+    <header class="bg-white w-full text-black px-4 pt-4">
+        <a class="text-2xl" href="{{ url_for('usuario.index') }}">Tienda Online</a>
+        <nav class="items-center flex flex-row justify-end ">
+            
+            <div class="flex flex-row justify-between items-center">
+                {% if usuario %}
+                <div>
+                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
+                        href="{{ url_for('usuario.logout') }}">
+                        <i class="fa-solid fa-right-from-bracket mx-4" style="color: #000000;"></i>Cerrar Sesion
+                    </a>
+                </div>
+                <div>
+                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
+                        href="{{ url_for('usuario.dashboard') }}">
+                        <i class="fa-solid fa-user mx-3" style="color: #000000;"></i>
+                        {% if usuario %}
+                        <p>{{ usuario.nombreUsuario }}</p>
+                        {% else %}
+                        {% endif %}
+                    </a>
+                </div>
+                {% else %}
+                <div>
+                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
+                        href="{{ url_for('usuario.register') }}">
+                        <i class="m-1 mr-2 fa-solid fa-plus" style="color: #000000;"></i>Registro
+                    </a>
+                </div>
+                <div>
+                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
+                        href="{{ url_for('usuario.login') }}">
+                        <i class="m-1 mr-2 fas fa-user"></i>Iniciar Sesion
+                    </a>
+                </div>
+                {% endif %}
+                <div>
+                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
+                        href="">
+                        <i class="fa-solid fa-cart-shopping mx-3" style="color: #000000;"></i><p class="hidden sm:contents md:contents lg:contents ">Carrito</p>
+                    </a>
+                </div>
+            </div>
+
+        </nav>
+    </header>
+
+    <main class="main max-w-8xl">
+
+        <div class="mt-16 mb-16 flex flex-col lg:flex-row justify-between flex-1">
+            <aside id="filtros" class="lg:mx-10 md:mx-5 mx-3 bg-gray-50 rounded-md shadow lg:w-1/4 mb-4 lg:mb-0">
+                <h1>
+                    hola
+                </h1>
+            </aside>
+            <div class="md:max-w-7xl lg:w-full my-10 py-10 mx-5 px-5 bg-gray-200 rounded-lg shadow-lg ">
+                <h1 class="text-3xl m-7">Informacion Usuario</h1>
+                <section id="productos" class="lg:w-full">
+                    <p>Nombre de usuario: {{ usuario.nombreUsuario }}</p><br/>
+                    <p>Correo electronico: {{ usuario.correoUsuario }}</p><br/>
+                    <p>Direccion: {{ usuario.direccion }}</p><br/>
+                </section>
+            </div>
+        </div>
+
+
+
+    </main>
+    <footer class="bg-gray-900 w-full text-white text-center py-4">
+        <p>&copy; 2024 Tienda Online. Todos los derechos reservados.</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
+
 </html>

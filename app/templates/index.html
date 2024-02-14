@@ -13,8 +13,8 @@
 
 <body class="flex flex-col min-h-screen">
     <header class="bg-white w-full text-black px-4 pt-4">
-        <h1 class="text-2xl">Tienda Online</h1>
-        <nav class="items-center flex flex-row justify-between">
+        <a class="text-2xl" href="{{ url_for('usuario.index') }}">Tienda Online</a>
+        <nav class="items-center flex flex-row justify-between ">
             <input type="checkbox" id="check">
             <label for="check" class="checkbtn">
                 <i class="fa-solid fa-bars-staggered" style="color: #000000;"></i>
@@ -30,41 +30,41 @@
                         href="#">Categoría 3</a></li>
             </ul>
             <div class="flex flex-row justify-between items-center">
-                {% if is_session_active %}
+                {% if usuario %}
                 <div>
-                    <a class="btn btn-primary hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
+                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
                         href="{{ url_for('usuario.logout') }}">
                         <i class="fa-solid fa-right-from-bracket mx-4" style="color: #000000;"></i>Cerrar Sesion
                     </a>
                 </div>
                 <div>
                     <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
-                        href="{{ url_for('usuario.index') }}">
+                        href="{{ url_for('usuario.dashboard') }}">
                         <i class="fa-solid fa-user mx-3" style="color: #000000;"></i>
-                        {% if username %}
-                        <p>{{ username }}</p>
+                        {% if usuario %}
+                        <p>{{ usuario.nombreUsuario }}</p>
                         {% else %}
                         {% endif %}
                     </a>
                 </div>
                 {% else %}
                 <div>
-                    <a class="btn btn-primary hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
+                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
                         href="{{ url_for('usuario.register') }}">
                         <i class="m-1 mr-2 fa-solid fa-plus" style="color: #000000;"></i>Registro
                     </a>
                 </div>
                 <div>
-                    <a class="btn btn-primary hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
+                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
                         href="{{ url_for('usuario.login') }}">
                         <i class="m-1 mr-2 fas fa-user"></i>Iniciar Sesion
                     </a>
                 </div>
                 {% endif %}
                 <div>
-                    <a class="btn btn-primary hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
+                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
                         href="">
-                        <i class="fa-solid fa-cart-shopping mx-3" style="color: #000000;"></i>Carrito
+                        <i class="fa-solid fa-cart-shopping mx-3" style="color: #000000;"></i><p class="hidden sm:contents md:contents lg:contents">Carrito</p>
                     </a>
                 </div>
             </div>
