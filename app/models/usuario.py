@@ -8,11 +8,16 @@ class Usuario(db.Model):
     contraseñaUsuario = db.Column(db.String(255), nullable=False)
     paymentMethodForaneo = db.Column(db.Integer, db.ForeignKey('Payment_method.idPayment_method'))
     orden = db.relationship('Orden', backref='usuario', lazy='dynamic')
-    pais = db.Column(db.Integer, db.ForeignKey('pais.idPais'), nullable=False)
-    direccion =  db.Column(db.String(255), nullable=False)
-    estado = db.Column(db.String(255),nullable=False)
-    ciudad =  db.Column(db.String(255), nullable=False)
+    
+    pais_id = db.Column(db.Integer, db.ForeignKey('pais.idPais'), nullable=False)  # Cambio de nombre a 'pais_id'
+    
+    direccion = db.Column(db.String(255), nullable=False)
+    estado = db.Column(db.String(255), nullable=False)
+    ciudad = db.Column(db.String(255), nullable=False)
     codigoPostal = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f'<Usuario {self.correoUsuario}>'
 
 
 

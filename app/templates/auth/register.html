@@ -17,12 +17,14 @@
         <div class="bg-white border-solid rounded m-10 w-auto h-auto ">
             <div class="flex flex-col-reverse items-center lg:flex-row">
 
-                <form class="lg:p-5 lg:m-10 p-6 lg:w-1/2 form shadow-gray-500 flex flex-col justify-center" method="post">
+                <form class="lg:p-5 lg:m-10 p-6 lg:w-1/2 form shadow-gray-500 flex flex-col justify-center"
+                    action="{{ url_for('usuario.register') }}" method="POST">
                     <div class="space-y-12 flex flex-col ">
                         <div class="flex flex-row justify-between">
                             <div class="pb-3">
                                 <h2 class="text-base font-semibold leading-7 text-gray-900">Registro</h2>
-                                <p class="mt-1 text-sm leading-6 text-gray-600">Esta información se mostrará públicamente.
+                                <p class="mt-1 text-sm leading-6 text-gray-600">Esta información se mostrará
+                                    públicamente.
                                     Así que ten cuidado con lo que compartes.</p>
                             </div>
                             <div class="flex justify-end content-center p-5 ">
@@ -32,22 +34,16 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                            <div class="sm:col-span-4">
-                                <label for="username"
-                                    class="block text-sm font-medium leading-6 text-gray-900">Usuario</label>
-                                <div class="mt-2">
-                                    <div
-                                        class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                        <span
-                                            class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">tiendaonline.com/</span>
-                                        <input type="text" name="username" id="username" autocomplete="username"
-                                            class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                            placeholder="janesmith">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                                        <strong class="font-bold">Error:</strong>
+                                        <span class="block sm:inline">{{ message }}</span>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
                         <div class="pb-12">
                             <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
                             <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can
@@ -56,40 +52,54 @@
                             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div class="sm:col-span-3">
                                     <label for="first-name"
-                                        class="block text-sm font-medium leading-6 text-gray-900">First name</label>
+                                        class="block text-sm font-medium leading-6 text-gray-900">Nombre</label>
                                     <div class="mt-2">
-                                        <input type="text" name="first-name" id="first-name" autocomplete="given-name"
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        <input type="text" name="first-name" id="first-name" autocomplete="given-name" 
+                                            class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     </div>
                                 </div>
 
                                 <div class="sm:col-span-3">
                                     <label for="last-name"
-                                        class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
+                                        class="block text-sm font-medium leading-6 text-gray-900">Apellido</label>
                                     <div class="mt-2">
-                                        <input type="text" name="last-name" id="last-name" autocomplete="family-name"
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        <input type="text" name="last-name" id="last-name" autocomplete="family-name" 
+                                            class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     </div>
                                 </div>
 
                                 <div class="sm:col-span-4">
-                                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
-                                        address</label>
+                                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Correo
+                                        Electronico</label>
                                     <div class="mt-2">
-                                        <input id="email" name="email" type="email" autocomplete="email"
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        <input id="email" name="fCorreoUsuario" type="email" autocomplete="email" 
+                                            class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                    </div>
+                                </div>
+                                <div class="sm:col-span-4">
+                                    <label for="email"
+                                        class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
+                                    <div class="mt-2">
+                                        <div class="flex flex-row items-center">
+                                            <input id="password" name="fContraseña" type="password" 
+                                                autocomplete="password"
+                                                class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            <i id="viewPassword" class="fa-solid fa-eye px-4 transition-all "
+                                                style="color: #000000;"></i>
+                                        </div>
+
                                     </div>
                                 </div>
 
                                 <div class="sm:col-span-3">
                                     <label for="country"
-                                        class="block text-sm font-medium leading-6 text-gray-900">Country</label>
+                                        class="block text-sm font-medium leading-6 text-gray-900">Pais</label>
                                     <div class="mt-2">
-                                        <select id="country" name="country" autocomplete="country-name"
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                                            <option>United States</option>
-                                            <option>Canada</option>
-                                            <option>Mexico</option>
+                                        <select id="country" name="fPais" autocomplete="country-name"
+                                            class="block px-3 w-4/5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                                            {% for pais in paises %}
+                                            <option value="{{ pais.idPais }}">{{ pais.nombrePais }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
@@ -98,9 +108,9 @@
                                     <label for="street-address"
                                         class="block text-sm font-medium leading-6 text-gray-900">Street address</label>
                                     <div class="mt-2">
-                                        <input type="text" name="street-address" id="street-address"
+                                        <input type="text" name="fDireccion" id="street-address" 
                                             autocomplete="street-address"
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     </div>
                                 </div>
 
@@ -108,8 +118,8 @@
                                     <label for="city"
                                         class="block text-sm font-medium leading-6 text-gray-900">City</label>
                                     <div class="mt-2">
-                                        <input type="text" name="city" id="city" autocomplete="address-level2"
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        <input type="text" name="fCiudad" id="city" autocomplete="address-level2" 
+                                            class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     </div>
                                 </div>
 
@@ -117,8 +127,8 @@
                                     <label for="region" class="block text-sm font-medium leading-6 text-gray-900">State
                                         / Province</label>
                                     <div class="mt-2">
-                                        <input type="text" name="region" id="region" autocomplete="address-level1"
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        <input type="text" name="fEstado" id="region" autocomplete="address-level1" 
+                                            class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     </div>
                                 </div>
 
@@ -127,9 +137,9 @@
                                         class="block text-sm font-medium leading-6 text-gray-900">ZIP / Postal
                                         code</label>
                                     <div class="mt-2">
-                                        <input type="text" name="postal-code" id="postal-code"
+                                        <input type="text" name="fCodigoPostal" id="postal-code" 
                                             autocomplete="postal-code"
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +168,22 @@
         <p>&copy; 2024 Tienda Online. Todos los derechos reservados.</p>
     </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        const passwordInput = document.getElementById('password');
+        const viewPassword = document.getElementById('viewPassword');
 
+        viewPassword.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                viewPassword.classList.add("fa-eye-slash");
+                viewPassword.classList.remove("fa-eye");
+            } else {
+                passwordInput.type = 'password';
+                viewPassword.classList.add("fa-eye");
+                viewPassword.classList.remove("fa-eye-slash");
+            }
+        });
+    </script>
 
 </body>
 

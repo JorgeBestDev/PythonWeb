@@ -8,7 +8,6 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     app.config.from_object('config.Config')
-    
     db.init_app(app)
 
     from app.routes import categoria_has_product_routes, categoria_routes,orden_routes,payment_method_routes,pedido_routes,producto_routes,usuario_routes, pais_routes
