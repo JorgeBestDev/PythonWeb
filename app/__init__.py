@@ -16,6 +16,13 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = 'usuario.login'
 
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = 'jorgito475@gmail.com'
+    app.config['MAIL_PASSWORD'] = 'Jorgeivan123._.'
+
     @login_manager.user_loader
     def load_user(user_id):
         # since the user_id is just the primary key of our user table, use it in the query for the user
