@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, flash, request, redirect, url_for
+from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import login_required, login_manager, UserMixin,login_user, logout_user,current_user
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import check_password_hash,generate_password_hash
@@ -72,7 +72,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return render_template('index.html')
+    return redirect(url_for('usuario.index'))
 
 
 @bp.route('/')

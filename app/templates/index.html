@@ -30,7 +30,7 @@
                         href="#">Categoría 3</a></li>
             </ul>
             <div class="flex flex-row justify-between items-center">
-                {% if usuario %}
+                {% if current_user.is_authenticated %}
                 <div>
                     <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
                         href="{{ url_for('usuario.logout') }}">
