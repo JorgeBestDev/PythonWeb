@@ -109,7 +109,7 @@
                                     <div class="mt-2">
                                         <div class="flex flex-row items-center">
                                             <input id="cellphone" name="fTelefonoUsuario" type="number" 
-                                                autocomplete="cellphone"
+                                                autocomplete="tel"
                                                 class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                         </div>
 
@@ -138,8 +138,8 @@
                                             class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     </div>
                                 </div>
-
-                                <div class="sm:col-span-2 sm:col-start-1">
+                                
+                                <div class="sm:col-span-2 sm:col-start-1 flex flex-col justify-between">
                                     <label for="city"
                                         class="block text-sm font-medium leading-6 text-gray-900">Ciudad</label>
                                     <div class="mt-2">
@@ -148,15 +148,15 @@
                                     </div>
                                 </div>
 
-                                <div class="sm:col-span-2">
-                                    <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Estado/Provincia/Departamento</label>
+                                <div class="sm:col-span-2 flex flex-col justify-between">
+                                    <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Estado/Provincia<br>Departamento</label>
                                     <div class="mt-2">
                                         <input type="text" name="fEstado" id="region" autocomplete="address-level1" 
                                             class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     </div>
                                 </div>
 
-                                <div class="sm:col-span-2">
+                                <div class="sm:col-span-2 flex flex-col justify-between">
                                     <label for="postal-code"
                                         class="block text-sm font-medium leading-6 text-gray-900">ZIP / Codigo Postal</label>
                                     <div class="mt-2">

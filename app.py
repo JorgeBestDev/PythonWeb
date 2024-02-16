@@ -1,11 +1,9 @@
 from app import create_app,db
 import os
-
-from datetime import datetime, timedelta
+from datetime import datetime
 from hashlib import sha256
-from sqlalchemy import Column, Integer, String, DateTime
-from flask import Flask, request, render_template, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask import request, render_template, redirect, url_for, flash
+from flask_login import current_user
 from flask_mail import Mail, Message
 from app.models.usuario import Usuario
 from app.models.password_reset_token import PasswordResetToken
@@ -40,28 +38,32 @@ def reset_password_request():
             return 'Se ha enviado un correo electrónico con instrucciones para restablecer la contraseña.'
         else:
             return 'El correo electrónico proporcionado no está registrado.'
-    return render_template('reset_password.html')
+    usuario=current_user
+    print("info de current_user", usuario)
+    return render_template('auth/reset_password.html',usuario=usuario)
 
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
     if request.method == 'POST':
-        password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
+        password = request.form.get('fContraseña')
+        confirm_password = request.form.get('fConfirmarContraseña')
         if password == confirm_password:
             # Busca el token en la base de datos
             reset_token = PasswordResetToken.query.filter_by(token=token).first()
             if reset_token:
                 # Realiza el restablecimiento de la contraseña
-                user = User.query.get(reset_token.user_id)
+                user = Usuario.query.get(reset_token.idUsuarioForaneo)
                 user.password = password
                 db.session.delete(reset_token)
                 db.session.commit()
-                return 'La contraseña se ha restablecido correctamente.'
+                flash("La contraseña ha sido actualizada correctamente", "success")
+                return redirect(url_for('usuario.login'))
             else:
-                return 'El token proporcionado no es válido.'
+                flash ("Este token es inválido o ya fue utilizado.", "danger")
+                return redirect(request.url)
         else:
             return 'Las contraseñas no coinciden.'
-    return render_template('reset_password.html')
+    return render_template('reset_password_with_token.html')
 
 with app.app_context():
     db.create_all()
