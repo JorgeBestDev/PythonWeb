@@ -3,12 +3,21 @@ import os
 from datetime import datetime
 from hashlib import sha256
 from flask import request, render_template, redirect, url_for, flash
-from flask_login import current_user
-from flask_mail import Mail, Message
+from flask_login import (
+    login_required,
+    login_manager,
+    UserMixin,
+    login_user,
+    logout_user,
+    current_user,
+)
+from flask_mail import Message,Mail
 from app.models.usuario import Usuario
 from app.models.password_reset_token import PasswordResetToken
+from werkzeug.security import check_password_hash, generate_password_hash
 
 app = create_app()
+mail = Mail(app)
 
 
 def generate_token(email):
@@ -18,52 +27,61 @@ def generate_token(email):
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_password_request():
+    logout_user()
     if request.method == 'POST':
         email = request.form.get('fCorreo')
+        emailMinusculas = email.lower()
         user = Usuario.query.filter_by(correoUsuario=email).first()
         if user:
             # Genera un token único
             token = generate_token(email)
             
             # Almacena el token en la base de datos
-            reset_token = PasswordResetToken(idUsuario=user.idUsuario, token=token)
+            reset_token = PasswordResetToken(idUsuarioForaneo=user.idUsuario, token=token)
             db.session.add(reset_token)
             db.session.commit()
             
             # Envía un correo electrónico al usuario con el enlace para restablecer la contraseña
-            reset_link = url_for('reset_password', token=token, _external=True)
-            msg = Message('Restablecer contraseña', sender='jorgito475@gmail.com', recipients=[email])
-            msg.body = f'Para restablecer tu contraseña, visita el siguiente enlace: https://proyectoformativo.onrender.com/{reset_link}'
-            Mail.send(msg)
-            return 'Se ha enviado un correo electrónico con instrucciones para restablecer la contraseña.'
+            reset_link = url_for('reset_password', token=token, _external=True)#cambiar a https://proyectoformativo.onrender.com/ cuando deploy
+            msg = Message('Restablecer contraseña', sender='pruebaemailsconfirmacion@gmail.com', recipients=[emailMinusculas])
+            msg.body = f'Para restablecer tu contraseña, visita el siguiente enlace: {reset_link}'
+            mail.send(msg)
+            flash('Se ha enviado un correo electrónico con instrucciones para restablecer la contraseña.', 'success')
+            return redirect(url_for('usuario.login'))
         else:
-            return 'El correo electrónico proporcionado no está registrado.'
-    usuario=current_user
-    print("info de current_user", usuario)
-    return render_template('auth/reset_password.html',usuario=usuario)
+            flash('El correo electrónico proporcionado no está registrado.', 'warning')
+            return redirect(request.url)
+    return render_template('auth/reset_password.html')
 
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
+    logout_user()
     if request.method == 'POST':
         password = request.form.get('fContraseña')
         confirm_password = request.form.get('fConfirmarContraseña')
-        if password == confirm_password:
+        if not password and not confirm_password:
+            flash('La nueva contraseña no puede estar vacia', 'warning')
+            redirect(request.url)
+        elif password == confirm_password:
             # Busca el token en la base de datos
             reset_token = PasswordResetToken.query.filter_by(token=token).first()
             if reset_token:
                 # Realiza el restablecimiento de la contraseña
                 user = Usuario.query.get(reset_token.idUsuarioForaneo)
-                user.password = password
+                contraseña_encriptada = generate_password_hash(password)
+                user.contraseñaUsuario = contraseña_encriptada
+                db.session.commit()
                 db.session.delete(reset_token)
                 db.session.commit()
                 flash("La contraseña ha sido actualizada correctamente", "success")
                 return redirect(url_for('usuario.login'))
             else:
-                flash ("Este token es inválido o ya fue utilizado.", "danger")
+                flash ("Este token es inválido o ya fue utilizado.", "error")
                 return redirect(request.url)
         else:
-            return 'Las contraseñas no coinciden.'
-    return render_template('reset_password_with_token.html')
+            flash ("Las contraseñas no coinciden", "error")
+            return redirect(request.url)
+    return render_template('auth/reset_password_with_token.html')
 
 with app.app_context():
     db.create_all()

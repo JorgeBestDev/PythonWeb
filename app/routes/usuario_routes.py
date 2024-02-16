@@ -89,12 +89,16 @@ def login():
         correo = request.form["fCorreoUsuario"]
         contraseña = request.form["fContraseñaUsuario"]
         user = Usuario.query.filter_by(correoUsuario=correo).first()
+        print("contraseña encriptada", user.contraseñaUsuario)
+        print("contraseña", contraseña)
         if user:
             if check_password_hash(user.contraseñaUsuario, contraseña):
                 login_user(user)
                 return redirect(url_for("usuario.index"))
             else:
                 flash("Contraseña incorrecta", "error")
+                return redirect(request.url)
+                
         else:
             flash("Usuario incorrecto", "error")
     return render_template("auth/login.html")
@@ -177,37 +181,39 @@ def delete():
 @bp.route('/changePassword', methods=['GET', 'POST'])
 @login_required
 def change_password():
-    if request.method == 'GET':
-        usuario = current_user
-        return render_template('usuario/change_password.html', usuario=usuario)
-    
-    if request.method == 'POST':
-        old_password = request.form['fPasswordAntigua']
-        new_password = request.form['fPasswordNueva']
-        confirmation = request.form['fConfirmacion']
-        if not old_password:
-            flash('Ingrese la contraseña actual', 'warning')
-            return redirect(url_for('usuario.change_password')) 
-        if not new_password:
-            flash('La nueva contraseña no puede estar vacia', 'warning')
-            return redirect(url_for('usuario.change_password')) 
-        if not confirmation:
-            flash('La confirmacion contraseña esta vacia', 'warning')
-            return redirect(url_for('usuario.change_password')) 
-            
-        if not current_user.check_password(old_password):
-            flash('La contraseña actual es incorrecta.', 'error')
-            return redirect(url_for('usuario.change_password')) 
+    if current_user.is_authenticated:
+        if request.method == 'GET':
+            usuario = current_user
+            return render_template('usuario/change_password.html', usuario=usuario)
+        
+        if request.method == 'POST':
+            old_password = request.form['fPasswordAntigua']
+            new_password = request.form['fPasswordNueva']
+            confirmation = request.form['fConfirmacion']
+            if not old_password:
+                flash('Ingrese la contraseña actual', 'warning')
+                return redirect(url_for('usuario.change_password')) 
+            if not new_password:
+                flash('La nueva contraseña no puede estar vacia', 'warning')
+                return redirect(url_for('usuario.change_password')) 
+            if not confirmation:
+                flash('La confirmacion contraseña esta vacia', 'warning')
+                return redirect(url_for('usuario.change_password')) 
+                
+            if not current_user.check_password(old_password):
+                flash('La contraseña actual es incorrecta.', 'error')
+                return redirect(url_for('usuario.change_password')) 
 
-        if new_password != confirmation:
-            flash('La nueva contraseña no coincide con la confirmación', 'error')
-            return redirect(url_for('usuario.change_password'))  
+            if new_password != confirmation:
+                flash('La nueva contraseña no coincide con la confirmación', 'error')
+                return redirect(url_for('usuario.change_password'))  
+            contraseña_encriptada = generate_password_hash(new_password)
+            current_user.contraseñaUsuairo=contraseña_encriptada
+            db.session.commit()
 
-        current_user.set_password(new_password)
-        db.session.commit()
-
-        flash('Se ha cambiado su contraseña exitosamente', 'success')
-        return redirect(url_for('usuario.edit'))
+            flash('Se ha cambiado su contraseña exitosamente', 'success')
+            return redirect(url_for('usuario.edit'))
+    return redirect(url_for('usuario.login'))
 
 
 @bp.route("/dashboard")
