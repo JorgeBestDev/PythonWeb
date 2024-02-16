@@ -1,7 +1,8 @@
 import os
+import secrets
 from datetime import timedelta
 #kqra jnuo zayw sixi
-SECRET_KEY = os.getenv('SECRET_KEY', 'claveSecreta')
+SECRET_KEY = os.getenv('SECRET_KEY', secrets.token_hex(32))
 PERMANENT_SESSION_LIFETIME = timedelta(days=365)
 
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:BeDdh5AEHg23fGbEGca4-Dbb3ch6DC2e@viaduct.proxy.rlwy.net:15114/proyecto_formativo'
