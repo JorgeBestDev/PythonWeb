@@ -10,7 +10,7 @@ class Usuario(db.Model, UserMixin):
     contraseñaUsuario = db.Column(db.String(255), nullable=False)
     telefonoUsuario = db.Column(db.BigInteger, unique=True)
     paymentMethodForaneo = db.Column(db.Integer, db.ForeignKey('Payment_method.idPayment_method'))
-    orden = db.relationship('Orden', backref='usuario', lazy='dynamic')
+    ordenes = db.relationship("Orden", secondary="usuario_has_orden", back_populates="usuarios")
     pais_id = db.Column(db.Integer, db.ForeignKey('pais.idPais'), nullable=False)
     direccion = db.Column(db.String(255), nullable=False)
     estado = db.Column(db.String(255), nullable=False)

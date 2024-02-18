@@ -16,7 +16,7 @@ def create_app():
 def init_extensions(app):
     db.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = 'usuario.login'
+    login_manager.login_view = 'auth.login'
 
 
     @login_manager.user_loader
@@ -29,7 +29,9 @@ def register_blueprints(app):
     from app.routes import (categoria_has_product_routes, categoria_routes,
                             orden_routes, payment_method_routes,
                             pedido_routes, producto_routes,
-                            usuario_routes, pais_routes)
+                            usuario_routes, pais_routes,
+                            auth_routes, administrador_routes,
+                            usuario_has_orden_routes)
     app.register_blueprint(categoria_has_product_routes.bp)
     app.register_blueprint(categoria_routes.bp)
     app.register_blueprint(orden_routes.bp)
@@ -38,3 +40,6 @@ def register_blueprints(app):
     app.register_blueprint(producto_routes.bp)
     app.register_blueprint(usuario_routes.bp)
     app.register_blueprint(pais_routes.bp)
+    app.register_blueprint(auth_routes.bp)
+    app.register_blueprint(administrador_routes.bp)
+    app.register_blueprint(usuario_has_orden_routes.bp)

@@ -1,6 +1,8 @@
 from app import create_app,db
+from sqlalchemy import MetaData
+from sqlalchemy.ext.declarative import declarative_base
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from hashlib import sha256
 from flask import request, render_template, redirect, url_for, flash
 from flask_login import (
@@ -66,6 +68,12 @@ def reset_password(token):
             # Busca el token en la base de datos
             reset_token = PasswordResetToken.query.filter_by(token=token).first()
             if reset_token:
+                if reset_token.timestamp < datetime.now() - timedelta(minutes=30):
+                    # Elimina el token de la base de datos
+                    db.session.delete(reset_token)
+                    db.session.commit()
+                    flash("El token de restablecimiento de contraseña ha expirado.", "error")
+                    return redirect(url_for('usuario.login'))
                 # Realiza el restablecimiento de la contraseña
                 user = Usuario.query.get(reset_token.idUsuarioForaneo)
                 contraseña_encriptada = generate_password_hash(password)
@@ -84,7 +92,12 @@ def reset_password(token):
     return render_template('auth/reset_password_with_token.html')
 
 with app.app_context():
+    Base = declarative_base()
+    target_metadata = db.metadata
     db.create_all()
+    
+    
+
 
 if __name__ == '__main__':
      app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))

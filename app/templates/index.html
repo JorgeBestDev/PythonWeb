@@ -13,7 +13,7 @@
 
 <body class="flex flex-col min-h-screen">
     <header class="bg-white w-full text-black px-4 pt-4">
-        <a class="text-2xl" href="{{ url_for('usuario.index') }}">Tienda Online</a>
+        <a class="text-2xl" href="{{ url_for('auth.index') }}">Tienda Online</a>
         <nav class="items-center flex flex-row justify-between ">
             <input type="checkbox" id="check">
             <label for="check" class="checkbtn">
@@ -33,7 +33,7 @@
                 {% if current_user.is_authenticated %}
                 <div>
                     <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
-                        href="{{ url_for('usuario.logout') }}">
+                        href="{{ url_for('auth.logout') }}">
                         <i class="fa-solid fa-right-from-bracket mx-4" style="color: #000000;"></i>Cerrar Sesion
                     </a>
                 </div>
@@ -41,22 +41,21 @@
                     <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
                         href="{{ url_for('usuario.dashboard') }}">
                         <i class="fa-solid fa-user mx-3" style="color: #000000;"></i>
-                        {% if usuario %}
-                        <p>{{ usuario.nombreUsuario }}</p>
-                        {% else %}
+                        {% if current_user %}
+                            <p>{{current_user.nombreUsuario}}</p>
                         {% endif %}
                     </a>
                 </div>
                 {% else %}
                 <div>
                     <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
-                        href="{{ url_for('usuario.register') }}">
+                        href="{{ url_for('auth.register') }}">
                         <i class="m-1 mr-2 fa-solid fa-plus" style="color: #000000;"></i>Registro
                     </a>
                 </div>
                 <div>
                     <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
-                        href="{{ url_for('usuario.login') }}">
+                        href="{{ url_for('auth.login') }}">
                         <i class="m-1 mr-2 fas fa-user"></i>Iniciar Sesion
                     </a>
                 </div>
@@ -71,7 +70,32 @@
 
         </nav>
     </header>
-
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="mt-10 mx-5
+                                {% if category == 'success' %}
+                                bg-green-100 border border-green-400 text-green-700
+                                {% elif category == 'error' %}
+                                bg-red-100 border border-red-400 text-red-700
+                                {% elif category == 'warning' %}
+                                bg-yellow-100 border border-yellow-400 text-yellow-700
+                                {% endif %}
+                                px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">
+                {% if category == 'success' %}
+                Éxito:
+                {% elif category == 'error' %}
+                Error:
+                {% elif category == 'warning' %}
+                Error:
+                {% endif %}
+            </strong>
+            <span class="block sm:inline">{{ message }}</span>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
     <main class="main w-full">
         <article class="slider w-full h-full overflow-hidden">
             <div class="gallery sm:m-auto lg:m-auto md:m-auto xl:m-auto ">
@@ -121,42 +145,22 @@
                 <h1 class="text-3xl m-7">Zapatillas Nike</h1>
                 <section id="productos" class="lg:w-full flex flex-wrap justify-around">
                     <!-- Aquí se mostrarán los productos -->
+                    {% for producto in productos %}
                     <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
-                        <img src="{{ url_for('static', filename='images/calzado-air-max-90-2ZsM2w.png') }}"
-                            alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
-                        <h3 class="mt-4">Nike Air Max 90</h3>
-                        <p>Precio: $XX</p>
+                        <img src="{{ url_for('static', filename='images/productos/' + producto.nombreImagen) }}" alt="{{ producto.nombreProducto }} class="w-48 h-48 mx-auto rounded-full">
+                        <h3 class="mt-4">{{ producto.nombreProducto }}</h3>
+                        <p>{{ producto.precioProducto }}$</p>
                         <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar
                             al
                             carrito</button>
                     </div>
-                    <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
-                        <img src="{{ url_for('static', filename='images/zapatillas-dunk-low-nino-a-hDjLTp.png') }}"
-                            alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
-                        <h3 class="mt-4">Nike SB Dunk Niño</h3>
-                        <p>Precio: $XX</p>
-                        <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar
-                            al
-                            carrito</button>
-                    </div>
-                    <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
-                        <img src="{{ url_for('static', filename='images/nike-dunk-low-black-white-panda.png') }}"
-                            alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
-                        <h3 class="mt-4">Nike SB Dunk Panda Low</h3>
-                        <p>Precio: $XX</p>
-                        <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar
-                            al
-                            carrito</button>
-                    </div>
-                    <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
-                        <img src="{{ url_for('static', filename='images/air-jordan-1-retro-high-og-sp-travis-scott-fragment-military-blue.png') }}"
-                            alt="Producto 1" class="w-48 h-48 mx-auto rounded-full">
-                        <h3 class="mt-4">Nike Air Max 90</h3>
-                        <p>Precio: $XX</p>
-                        <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar
-                            al
-                            carrito</button>
-                    </div>
+                    {% endfor %}
+
+                    
+                    
+
+
+
                     <!-- Repite el mismo formato para otros productos -->
                 </section>
             </div>
