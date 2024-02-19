@@ -37,9 +37,13 @@ def add():
 @bp.route('/producto-edit')
 @login_required
 def edit():
-    if current_user.es_administrador:
-        # Esta ruta solo es accesible para el administrador
-        return render_template('ruta_exclusiva_admin.html')
+    if current_user.es_administrador==1:
+        if request.method=='GET':
+            producto = Producto.query.all()
+            return render_template('ruta_exclusiva_admin.html', producto)
+        elif request.method=='POST':
+
+            return 'Edito producto'
     else:
         flash("No tienes permiso para ejecutar esta accion.", "error")
         return redirect(url_for('auth.index'))

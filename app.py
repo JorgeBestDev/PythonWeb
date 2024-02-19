@@ -49,7 +49,7 @@ def reset_password_request():
             msg.body = f'Para restablecer tu contraseña, visita el siguiente enlace: {reset_link}'
             mail.send(msg)
             flash('Se ha enviado un correo electrónico con instrucciones para restablecer la contraseña.', 'success')
-            return redirect(url_for('usuario.login'))
+            return redirect(url_for('auth.login'))
         else:
             flash('El correo electrónico proporcionado no está registrado.', 'warning')
             return redirect(request.url)
@@ -68,12 +68,12 @@ def reset_password(token):
             # Busca el token en la base de datos
             reset_token = PasswordResetToken.query.filter_by(token=token).first()
             if reset_token:
-                if reset_token.timestamp < datetime.now() - timedelta(minutes=30):
+                if reset_token.created_at < datetime.now() - timedelta(minutes=30):
                     # Elimina el token de la base de datos
                     db.session.delete(reset_token)
                     db.session.commit()
                     flash("El token de restablecimiento de contraseña ha expirado.", "error")
-                    return redirect(url_for('usuario.login'))
+                    return redirect(url_for('auth.login'))
                 # Realiza el restablecimiento de la contraseña
                 user = Usuario.query.get(reset_token.idUsuarioForaneo)
                 contraseña_encriptada = generate_password_hash(password)
@@ -82,7 +82,7 @@ def reset_password(token):
                 db.session.delete(reset_token)
                 db.session.commit()
                 flash("La contraseña ha sido actualizada correctamente", "success")
-                return redirect(url_for('usuario.login'))
+                return redirect(url_for('auth.login'))
             else:
                 flash ("Este token es inválido o ya fue utilizado.", "error")
                 return redirect(request.url)
