@@ -7,7 +7,7 @@ from alembic import context
 
 from app import db 
 
-from app.models import administrador,categoria_has_producto,categoria,orden, pais, password_reset_token, payment_Method, pedido, producto, usuario
+from app.models import categoria_has_producto,categoria,orden, pais, password_reset_token, payment_Method, pedido, producto, usuario
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

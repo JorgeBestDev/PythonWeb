@@ -10,7 +10,6 @@ from flask import Blueprint, render_template, flash, request, redirect, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 from app import db
 from app.models.usuario import Usuario
-from app.models.administrador import Administrador
 from app.models.pais import Pais
 from app.models.producto import Producto
 from sqlalchemy.exc import IntegrityError
@@ -87,38 +86,22 @@ def login():
         
         correo = request.form["fCorreoUsuario"]
         contraseña = request.form["fContraseñaUsuario"]
-        admin = Administrador.query.filter_by(correoAdministrador=correo).first()
         user = Usuario.query.filter_by(correoUsuario=correo).first()
-        if not user and not admin:  
-            flash('No hay ningun correo asociado a tu cuenta.', 'error')
+        
+        if not user:  
+            flash('No hay ningún correo asociado a tu cuenta.', 'error')
             return redirect(request.url)
-        if admin:
-            
-            if check_password_hash(admin.contraseñaAdministrador, contraseña):
-                login_user(admin)
-                
-                
-                if isinstance(current_user, Administrador):
-                    # Esta ruta solo es accesible para el administrador
-                    return redirect(url_for('administrador.index'))
-                else:
-                    flash("No tienes permiso para acceder a esta página.", "error")
-                    return redirect(url_for("auth.index"))
-            else:
-                flash("Contraseña incorrecta", "error")
-                return redirect(request.url)
-        else:
-            if user:
-                if check_password_hash(user.contraseñaUsuario, contraseña):
-                    login_user(user)
-                    return redirect(url_for("auth.index"))
-                else:
-                    flash("Contraseña incorrecta", "error")
-                    return redirect(request.url)
-                    
-            else:
-                flash("Usuario incorrecto", "error")
-            return redirect(request.url)
+        
+        if user.es_administrador==1 and check_password_hash(user.contraseñaUsuario, contraseña):
+            login_user(user)
+            print("current user admin: ", current_user)
+            return redirect(url_for('auth.index'))
+        
+        if  user.es_administrador==0 and check_password_hash(user.contraseñaUsuario, contraseña):
+            login_user(user)
+            print("current user usuario: ", current_user)
+            return redirect(url_for("auth.index"))   
+        
     return render_template("auth/login.html")
 
 
@@ -131,6 +114,9 @@ def logout():
 
 @bp.route("/")
 def index():
+    contraseña ='W#u8@r!P5b2$qF9Z'
+    contraseña_hash=generate_password_hash(contraseña)
+    print(contraseña_hash)
     productos = Producto.query.all()
     usuarioActual = current_user
     return render_template("index.html", current_user=usuarioActual, productos=productos)

@@ -4,5 +4,4 @@ from app.models.categoria import Categoria
 from app.models.categoria_has_producto import Categoria_has_producto
 from app.models.producto import Producto
 from app.models.usuario import Usuario
-from app.models.administrador import Administrador
 from app.models.usuario_has_orden import Usuario_has_Orden

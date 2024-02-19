@@ -17,6 +17,7 @@ class Usuario(db.Model, UserMixin):
     ciudad = db.Column(db.String(255), nullable=False)
     codigoPostal = db.Column(db.Integer, nullable=False)
     password_reset_tokens = db.relationship("PasswordResetToken", backref="usuario", lazy='dynamic')
+    es_administrador = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return f'<Usuario {self.correoUsuario}>'

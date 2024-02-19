@@ -42,7 +42,7 @@
                         href="{{ url_for('usuario.dashboard') }}">
                         <i class="fa-solid fa-user mx-3" style="color: #000000;"></i>
                         {% if current_user %}
-                            <p>{{current_user.nombreUsuario}}</p>
+                        <p>{{current_user.nombreUsuario}}</p>
                         {% endif %}
                     </a>
                 </div>
@@ -63,7 +63,8 @@
                 <div>
                     <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
                         href="">
-                        <i class="fa-solid fa-cart-shopping mx-3" style="color: #000000;"></i><p class="hidden sm:contents md:contents lg:contents">Carrito</p>
+                        <i class="fa-solid fa-cart-shopping mx-3" style="color: #000000;"></i>
+                        <p class="hidden sm:contents md:contents lg:contents">Carrito</p>
                     </a>
                 </div>
             </div>
@@ -71,9 +72,9 @@
         </nav>
     </header>
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="mt-10 mx-5
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="mt-10 mx-5
                                 {% if category == 'success' %}
                                 bg-green-100 border border-green-400 text-green-700
                                 {% elif category == 'error' %}
@@ -82,20 +83,20 @@
                                 bg-yellow-100 border border-yellow-400 text-yellow-700
                                 {% endif %}
                                 px-4 py-3 rounded relative" role="alert">
-            <strong class="font-bold">
-                {% if category == 'success' %}
-                Éxito:
-                {% elif category == 'error' %}
-                Error:
-                {% elif category == 'warning' %}
-                Error:
-                {% endif %}
-            </strong>
-            <span class="block sm:inline">{{ message }}</span>
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
+        <strong class="font-bold">
+            {% if category == 'success' %}
+            Éxito:
+            {% elif category == 'error' %}
+            Error:
+            {% elif category == 'warning' %}
+            Error:
+            {% endif %}
+        </strong>
+        <span class="block sm:inline">{{ message }}</span>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
     <main class="main w-full">
         <article class="slider w-full h-full overflow-hidden">
             <div class="gallery sm:m-auto lg:m-auto md:m-auto xl:m-auto ">
@@ -121,33 +122,50 @@
         </article>
 
         <div class="mt-16 mb-16 flex flex-col lg:flex-row justify-between flex-1">
-            <aside id="filtros" class="mr-10 ml-10 lg:w-1/4 bg-gray-200 p-4 rounded-lg shadow mb-4 lg:mb-0">
-                <h2 class="mb-4">Filtros</h2>
-                <div class="mb-4">
-                    <label for="categoria" class="block font-bold mb-1">Categoría:</label>
-                    <select id="categoria" class="w-full px-4 py-2 border rounded-lg">
-                        <option value="todas">Todas</option>
-                        <option value="categoria1">Categoría 1</option>
-                        <option value="categoria2">Categoría 2</option>
-                        <option value="categoria3">Categoría 3</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="orden" class="block font-bold mb-1">Orden:</label>
-                    <select id="orden" class="w-full px-4 py-2 border rounded-lg">
-                        <option value="alfabetico">Alfabético</option>
-                        <option value="precio-asc">Precio Menor a Mayor</option>
-                        <option value="precio-desc">Precio Mayor a Menor</option>
-                    </select>
-                </div>
-            </aside>
+            {% if current_user.es_administrador==1 %}
+            <div class="flex flex-col">
+                <a class="mx-auto my-5 text-center text rounded-md bg-indigo-600 px-3 py-2 text-sm md:text-lg lg:text-xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    href="{{ url_for('producto.add') }}">
+                    <p class="px-20 py-5 text-2xl md:text-xl md:px-16 md:py-2 lg:text-lg lg:px-8 lg:py-0">
+                        NuevoProducto!
+                    </p>
+                </a>
+                {% else %}
+
+                {% endif %}
+                <aside id="filtros" class="mx-10 mt-10 md:mt-5 md:mx-3 bg-gray-200 p-4 rounded-lg shadow h-full">
+                    <h2 class="mb-4">Filtros</h2>
+                    <div class="mb-4">
+                        <label for="categoria" class="block font-bold mb-1">Categoría:</label>
+                        <select id="categoria" class="w-full px-4 py-2 border rounded-lg">
+                            <option value="todas">Todas</option>
+                            <option value="categoria1">Categoría 1</option>
+                            <option value="categoria2">Categoría 2</option>
+                            <option value="categoria3">Categoría 3</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="orden" class="block font-bold mb-1">Orden:</label>
+                        <select id="orden" class="w-full px-4 py-2 border rounded-lg">
+                            <option value="alfabetico">Alfabético</option>
+                            <option value="precio-asc">Precio Menor a Mayor</option>
+                            <option value="precio-desc">Precio Mayor a Menor</option>
+                        </select>
+                    </div>
+                </aside>
+                {% if current_user.es_administrador==1 %}
+            </div>
+            {% else %}
+
+            {% endif %}
             <div class="w-full mr-38">
                 <h1 class="text-3xl m-7">Zapatillas Nike</h1>
                 <section id="productos" class="lg:w-full flex flex-wrap justify-around">
                     <!-- Aquí se mostrarán los productos -->
                     {% for producto in productos %}
                     <div class="producto w-64 bg-white rounded-lg shadow p-4 text-center m-4">
-                        <img src="{{ url_for('static', filename='images/productos/' + producto.nombreImagen) }}" alt="{{ producto.nombreProducto }} class="w-48 h-48 mx-auto rounded-full">
+                        <img src="{{ url_for('static', filename='images/productos/' + producto.nombreImagen) }}"
+                            alt="{{ producto.nombreProducto }} class=" w-48 h-48 mx-auto rounded-full">
                         <h3 class="mt-4">{{ producto.nombreProducto }}</h3>
                         <p>{{ producto.precioProducto }}$</p>
                         <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar
@@ -156,8 +174,8 @@
                     </div>
                     {% endfor %}
 
-                    
-                    
+
+
 
 
 

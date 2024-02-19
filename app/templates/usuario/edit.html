@@ -98,6 +98,8 @@
                             </h1>
                         </a>
                     </div>
+                    {% if usuario.es_administrador==1 %}
+                    {% else %}
                     <div
                         class="cursor-pointer rounded-md p-3 border-gray-50 hover:border-black border-2 transition duration-150 ease-in-out">
                         <h1>
@@ -113,6 +115,8 @@
                         </a>
 
                     </div>
+                    {% endif %}
+
                 </div>
             </aside>
 
@@ -120,15 +124,25 @@
             <div class="md:max-w-7xl lg:w-full my-10 py-10 mx-5 px-5 bg-white rounded-lg shadow-lg ">
                 <h1 class="text-3xl m-7">Informacion Usuario</h1>
                 <section id="productos" class="lg:w-full px-5">
+                    {% if usuario.es_administrador==1 %}
+                    {% else %}
                     <form action="{{ url_for('usuario.edit') }}" method="post">
+                        {% endif %}
                         <div class="sm:col-span-4 pb-2">
                             <label for="nombreUsuario" class="block text-sm font-medium leading-6 text-gray-900">Nombre
                                 Completo</label>
                             <div class="mt-2">
                                 <div class="flex flex-row items-center">
+                                    {% if usuario.es_administrador==1 %}
+                                    <p
+                                        class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        {{ usuario.nombreUsuario }}
+                                    </p>
+                                    {% else %}
                                     <input id="nombreUsuario" name="fNombreUsuario" type="text"
                                         value="{{ usuario.nombreUsuario }}"
                                         class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -138,18 +152,26 @@
                                 Electronico</label>
                             <div class="mt-2">
                                 <div class="flex flex-row items-center">
+                                    {% if usuario.es_administrador==1 %}
+                                    <p
+                                        class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        {{ usuario.nombreUsuario }}
+                                    </p>
+                                    {% else %}
                                     <input id="correoUsuario" name="fCorreoUsuario" type="email" autocomplete="email"
                                         value="{{ usuario.correoUsuario }}""
                                         class=" block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm
                                         ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2
                                         focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                    {% endif %}
+
                                 </div>
                             </div>
                         </div>
-
+                        {% if usuario.es_administrador==1 %}
+                        {% else %}
                         <div class="sm:col-span-4 pb-2">
-                            <label
-                                class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
+                            <label class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
                             <div class="my-2">
                                 <div class="flex flex-row items-center">
                                     <a class="rounded-md bg-indigo-600 px-3 py-2  text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -159,28 +181,46 @@
 
                             </div>
                         </div>
+                        {% endif %}
+
 
                         <div class="sm:col-span-4 pb-2">
                             <label for="telefonoUsuario"
                                 class="block text-sm font-medium leading-6 text-gray-900">Telefono</label>
                             <div class="mt-2">
                                 <div class="flex flex-row items-center">
-                                    <input id="telefonoUsuario" name="fTelefonoUsuario" type="number"
-                                        autocomplete="tel" value="{{ usuario.telefonoUsuario }}"
+                                    {% if usuario.es_administrador==1 %}
+                                    <p
                                         class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        {{ usuario.telefonoUsuario }}
+                                    </p>
+                                    {% else %}
+                                    <input id="telefonoUsuario" name="fTelefonoUsuario" type="number" autocomplete="tel"
+                                        value="{{ usuario.telefonoUsuario }}"
+                                        class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                    {% endif %}
+
                                 </div>
                             </div>
                         </div>
                         <div class="sm:col-span-3">
                             <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Pais</label>
                             <div class="mt-2">
+
                                 <select id="country" name="fPais" autocomplete="country-name"
                                     class="block px-3 w-4/5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
                                     {% for pais in paises %}
+                                    {% if usuario.es_administrador==1 %}
+                                    <option value="{{ pais.idPais }}" {% if paisActual.idPais==pais.idPais %} selected{%
+                                        endif %} disabled>
+                                        {{ pais.nombrePais }}
+                                    </option>
+                                    {% else %}
                                     <option value="{{ pais.idPais }}" {% if paisActual.idPais==pais.idPais %} selected{%
                                         endif %}>
                                         {{ pais.nombrePais }}
                                     </option>
+                                    {% endif %}
                                     {% endfor %}
                                 </select>
                             </div>
@@ -190,8 +230,17 @@
                             <label for="street-address"
                                 class="block text-sm font-medium leading-6 text-gray-900">Direccion</label>
                             <div class="mt-2">
-                                <input type="text" name="fDireccion" id="street-address" autocomplete="street-address" value="{{ usuario.direccion }}"
+                                {% if usuario.es_administrador==1 %}
+                                <p
                                     class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                    {{ usuario.direccion }}
+                                </p>
+                                {% else %}
+                                <input type="text" name="fDireccion" id="street-address" autocomplete="street-address"
+                                    value="{{ usuario.direccion }}"
+                                    class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                {% endif %}
+
                             </div>
                         </div>
 
@@ -200,8 +249,17 @@
                                 <label for="city"
                                     class="my-auto block text-sm font-medium leading-6 text-gray-900">Ciudad</label>
                                 <div class="mt-2">
-                                    <input type="text" name="fCiudad" id="city" autocomplete="address-level2" value="{{ usuario.ciudad }}"
+                                    {% if usuario.es_administrador==1 %}
+                                    <p
                                         class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        {{ usuario.ciudad }}
+                                    </p>
+                                    {% else %}
+                                    <input type="text" name="fCiudad" id="city" autocomplete="address-level2"
+                                        value="{{ usuario.ciudad }}"
+                                        class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                    {% endif %}
+
                                 </div>
                             </div>
 
@@ -209,26 +267,49 @@
                                 <label for="region"
                                     class="my-auto block text-sm font-medium leading-6 text-gray-900">Estado/Provincia<br>Departamento</label>
                                 <div class="mt-2">
-                                    <input type="text" name="fEstado" id="region" autocomplete="address-level1" value="{{ usuario.estado }}"
+                                    {% if usuario.es_administrador==1 %}
+                                    <p
                                         class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        {{ usuario.estado }}
+                                    </p>
+                                    {% else %}
+                                    <input type="text" name="fEstado" id="region" autocomplete="address-level1"
+                                        value="{{ usuario.estado }}"
+                                        class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                    {% endif %}
+
                                 </div>
                             </div>
 
                             <div class="sm:col-span-2 flex flex-col justify-between">
-                                <label for="postal-code" class="my-auto block text-sm font-medium leading-6 text-gray-900">ZIP /
+                                <label for="postal-code"
+                                    class="my-auto block text-sm font-medium leading-6 text-gray-900">ZIP /
                                     Codigo Postal</label>
                                 <div class="mt-2">
-                                    <input type="text" name="fCodigoPostal" id="postal-code" autocomplete="postal-code" value="{{ usuario.codigoPostal }}"
+                                    {% if usuario.es_administrador==1 %}
+                                    <p
                                         class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        {{ usuario.codigoPostal }}
+                                    </p>
+                                    {% else %}
+                                    <input type="text" name="fCodigoPostal" id="postal-code" autocomplete="postal-code"
+                                        value="{{ usuario.codigoPostal }}"
+                                        class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                    {% endif %}
+
                                 </div>
                             </div>
                         </div>
+                        {% if usuario.es_administrador==1 %}
+                        {% else %}
                         <div class="mt-6 flex items-center justify-end gap-x-6">
                             <a href="{{ url_for('usuario.edit') }}"
                                 class="text-md font-semibold leading-6 text-gray-900">Cancel</a>
                             <button type="submit"
                                 class="rounded-md bg-indigo-600 px-3 py-2 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
                         </div>
+                        {% endif %}
+
                     </form>
                 </section>
             </div>
@@ -241,7 +322,7 @@
         <p>&copy; 2024 Tienda Online. Todos los derechos reservados.</p>
     </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+
 </body>
 
 </html>

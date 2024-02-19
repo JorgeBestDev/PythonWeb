@@ -30,7 +30,7 @@ def register_blueprints(app):
                             orden_routes, payment_method_routes,
                             pedido_routes, producto_routes,
                             usuario_routes, pais_routes,
-                            auth_routes, administrador_routes,
+                            auth_routes,
                             usuario_has_orden_routes)
     app.register_blueprint(categoria_has_product_routes.bp)
     app.register_blueprint(categoria_routes.bp)
@@ -41,5 +41,4 @@ def register_blueprints(app):
     app.register_blueprint(usuario_routes.bp)
     app.register_blueprint(pais_routes.bp)
     app.register_blueprint(auth_routes.bp)
-    app.register_blueprint(administrador_routes.bp)
     app.register_blueprint(usuario_has_orden_routes.bp)
