@@ -8,6 +8,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
 
+
     init_extensions(app)
     register_blueprints(app)
 
