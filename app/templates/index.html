@@ -32,13 +32,13 @@
             <div class="flex flex-row justify-between items-center">
                 {% if current_user.is_authenticated %}
                 <div>
-                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
+                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
                         href="{{ url_for('auth.logout') }}">
                         <i class="fa-solid fa-right-from-bracket mx-4" style="color: #000000;"></i>Cerrar Sesion
                     </a>
                 </div>
                 <div>
-                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
+                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300  md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
                         href="{{ url_for('usuario.dashboard') }}">
                         <i class="fa-solid fa-user mx-3" style="color: #000000;"></i>
                         {% if current_user %}
@@ -48,7 +48,7 @@
                 </div>
                 {% else %}
                 <div>
-                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
+                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
                         href="{{ url_for('auth.register') }}">
                         <i class="m-1 mr-2 fa-solid fa-plus" style="color: #000000;"></i>Registro
                     </a>
@@ -98,7 +98,7 @@
     {% endif %}
     {% endwith %}
     <main class="main w-full">
-        <article class="slider w-full h-full overflow-hidden">
+        <article class="transition-all opacity-100 slider w-full h-full overflow-hidden">
             <div class="gallery sm:m-auto lg:m-auto md:m-auto xl:m-auto ">
                 <div class="gallery-container max-w-screen-lg ">
                     <img class="gallery-item gallery-item-1"
@@ -123,7 +123,7 @@
 
         <div class="mt-16 mb-16 flex flex-col lg:flex-row justify-between flex-1">
             {% if current_user.es_administrador==1 %}
-            
+
             <div class="flex flex-col">
                 <a class="mx-auto my-5 text-center text rounded-md bg-indigo-600 px-3 py-2 text-sm md:text-lg lg:text-xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     href="{{ url_for('producto.add') }}">
@@ -134,7 +134,8 @@
                 {% else %}
 
                 {% endif %}
-                <aside id="filtros" class="mx-10 mt-10 md:mt-5 md:mx-3 bg-gray-200 p-4 rounded-lg shadow {% if current_user.es_administrador==1 %} h-full {% else %} {% endif %}">
+                <aside id="filtros"
+                    class="mx-10 mt-10 md:mt-5 md:mx-3 bg-gray-200 p-4 rounded-lg shadow {% if current_user.es_administrador==1 %} h-full {% else %} {% endif %}">
                     <h2 class="mb-4">Filtros</h2>
                     <div class="mb-4">
                         <label for="categoria" class="block font-bold mb-1">Categoría:</label>
@@ -169,20 +170,44 @@
                             alt="{{ producto.nombreProducto }} class=" w-48 h-48 mx-auto rounded-full">
                         <h3 class="mt-4">{{ producto.nombreProducto }}</h3>
                         <p>{{ producto.precioProducto }}$</p>
-                        <button class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar
-                            al
-                            carrito</button>
+                        <div>
+                            <button
+                                class="boton bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">Agregar
+                                al carrito</button>
+                        </div>
+                        {% if current_user.es_administrador==1 %}
+                        <div class="flex flex-row justify-center">
+
+                            <form action="{{ url_for('producto.view_edit') }}" method="post">
+                                <input type="hidden" name="fIdProducto" value="{{ producto.idProducto }}">
+                                <button
+                                    class="flex justify-center p-3 m-3 cursor-pointer bg-green-100 text-green-600 rounded-md font-medium hover:text-green-500 transition-all focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500"
+                                    type="submit">
+                                    Editar
+                                </button>
+                            </form>
+
+                            <form action="" method="post">
+                                <button
+                                    class="flex justify-center p-3 m-3 cursor-pointer bg-red-500 hover:bg-red-600 rounded-md font-medium hover:text-white transition-all focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500"
+                                    type="submit">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                    {% endfor %}
-
-
-
-
-
-
-                    <!-- Repite el mismo formato para otros productos -->
-                </section>
+                    {% endif %}
             </div>
+            {% endfor %}
+
+
+
+
+
+
+            <!-- Repite el mismo formato para otros productos -->
+            </section>
+        </div>
         </div>
 
 
@@ -241,6 +266,7 @@
             function openMenu() {
                 $('body').toggleClass('menu-open');
                 $('.slider').toggleClass('slider-move-out');
+                $('.slider').toggleClass('hidden')
                 activo == 1;
             }
 

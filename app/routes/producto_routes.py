@@ -70,7 +70,7 @@ def add():
                     return redirect(url_for('auth.index'))
                 except IntegrityError:
                     db.session.rollback()
-                    flash('Correo ya existente', 'error')
+                    flash('Error al añadir producto', 'error')
                     return redirect(request.url)
             else:
                 flash('Tipo de archivo no permitido', 'error')
@@ -80,18 +80,59 @@ def add():
         logout_user()
         return redirect(url_for('auth.index'))
 
+@bp.route('/producto-view-edit', methods=['GET', 'POST'])
+@login_required
+def view_edit():
+    if current_user.es_administrador==1:
+        productoSeleccionado= request.form['fIdProducto']
+        producto = Producto.query.filter_by(idProducto=productoSeleccionado).first()
+        return render_template("administrador/producto/edit.html",producto=producto)
+    else:
+        flash("No tienes permiso para ejecutar esta accion.", "error")
+        return redirect(url_for('auth.index'))
 
-
-@bp.route('/producto-edit')
+@bp.route('/producto-edit', methods=['GET','POST'])
 @login_required
 def edit():
     if current_user.es_administrador==1:
         if request.method=='GET':
-            producto = Producto.query.all()
-            return render_template('ruta_exclusiva_admin.html', producto)
+            return redirect(url_for('producto.view_edit'))
         elif request.method=='POST':
+            idProducto = request.form['fIdProducto']
+            productoSeleccionado = Producto.query.filter_by(idProducto=idProducto).first()
+            nombreNuevo = request.form['fNombreProducto']
+            precioNuevo = float(request.form['fPrecioProducto'])
+            imagen = request.files['fImagen']
 
-            return 'Edito producto'
+            if not nombreNuevo or not precioNuevo or not imagen:
+                flash('Ningún campo puede estar vacío', 'error')
+                return redirect(request.url)
+                
+            # Verifica si el archivo cargado es válido
+            if imagen:
+            # Genera un nombre seguro para el archivo
+                filename = secure_filename(imagen.filename)
+                imagen_guardada_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                imagen.save(imagen_guardada_path)
+                    
+                producto = productoSeleccionado(
+                    nombreProducto=nombreNuevo,
+                    precioProducto=precioNuevo,
+                    nombreImagen=filename  # Guarda el nombre del archivo en la base de datos
+                )
+                    
+                try:
+                    db.session.add(producto)
+                    db.session.commit()
+                    flash('Producto editado', 'success')
+                    return redirect(url_for('auth.index'))
+                except IntegrityError:
+                    db.session.rollback()
+                    flash('Error al Editar producto', 'error')
+                    return redirect(request.url)
+            else:
+                flash('Tipo de archivo no permitido', 'error')
+                return redirect(request.url)
     else:
         flash("No tienes permiso para ejecutar esta accion.", "error")
         return redirect(url_for('auth.index'))
