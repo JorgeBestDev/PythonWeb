@@ -10,11 +10,9 @@ DECLINED = 'DECLINED'
 class Orden(db.Model):
     __tablename__ = 'orden'
     
-    idOrden = db.Column(db.Integer,  primary_key=True)
+    idOrden = db.Column(db.Integer, primary_key=True)
     precioOrden = db.Column(db.Numeric(precision=10, scale=2), nullable=False)
-    usuarios = db.relationship("Usuario", secondary="usuario_has_orden", back_populates="ordenes")
-    status = Column(Enum(PENDING, COMPLETED, DECLINED, name='status_enum'), default=PENDING, nullable=False)
+    status = db.Column(Enum(PENDING, COMPLETED, DECLINED, name='status_enum'), default=PENDING, nullable=False)
     
-    pedidoForaneo = db.Column(db.Integer, db.ForeignKey('pedido.idPedido'), nullable=False)
-    pedido = db.relationship("Pedido", back_populates="ordenes")
+    carritoForaneo = db.Column(db.Integer, db.ForeignKey('carrito.idCarrito'), nullable=False)
     

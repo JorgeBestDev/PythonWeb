@@ -12,6 +12,8 @@ from app import db
 from app.models.usuario import Usuario
 from app.models.pais import Pais
 from app.models.producto import Producto
+from app.models.carrito import Carrito
+from app.models.pedido import Pedido
 from sqlalchemy.exc import IntegrityError
 
 
@@ -118,5 +120,13 @@ def index():
     contraseña_hash=generate_password_hash(contraseña)
     print(contraseña_hash)
     productos = Producto.query.all()
+    carrito = Carrito.query.all()
+    pedido=Pedido.query.all()
     usuarioActual = current_user
-    return render_template("index.html", current_user=usuarioActual, productos=productos)
+    if usuarioActual.is_authenticated:
+        cantidad_pedidos = Pedido.query.filter_by(usuarioForeaneo=usuarioActual.idUsuario).count()
+    else:
+        cantidad_pedidos = 0
+    
+    print("pedidos: ",carrito)
+    return render_template("index.html", current_user=usuarioActual, productos=productos, carrito=carrito, cantidad_pedidos=cantidad_pedidos)

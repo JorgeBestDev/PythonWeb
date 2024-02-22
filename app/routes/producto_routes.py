@@ -10,6 +10,7 @@ from flask_login import (
 from werkzeug.utils import secure_filename
 import os
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import text
 from werkzeug.security import check_password_hash, generate_password_hash
 from app import db, login_manager
 from app.config import UPLOAD_FOLDER
@@ -80,23 +81,15 @@ def add():
         logout_user()
         return redirect(url_for('auth.index'))
 
-@bp.route('/producto-view-edit', methods=['GET', 'POST'])
-@login_required
-def view_edit():
-    if current_user.es_administrador==1:
-        productoSeleccionado= request.form['fIdProducto']
-        producto = Producto.query.filter_by(idProducto=productoSeleccionado).first()
-        return render_template("administrador/producto/edit.html",producto=producto)
-    else:
-        flash("No tienes permiso para ejecutar esta accion.", "error")
-        return redirect(url_for('auth.index'))
 
-@bp.route('/producto-edit', methods=['GET','POST'])
+
+@bp.route('/producto-edit/<int:idProducto>', methods=['GET', 'POST'])
 @login_required
-def edit():
+def edit(idProducto):
     if current_user.es_administrador==1:
         if request.method=='GET':
-            return redirect(url_for('producto.view_edit'))
+            producto=Producto.query.filter_by(idProducto=idProducto).first()
+            return render_template('administrador/producto/edit.html', producto=producto)
         elif request.method=='POST':
             idProducto = request.form['fIdProducto']
             productoSeleccionado = Producto.query.filter_by(idProducto=idProducto).first()
@@ -104,25 +97,40 @@ def edit():
             precioNuevo = float(request.form['fPrecioProducto'])
             imagen = request.files['fImagen']
 
-            if not nombreNuevo or not precioNuevo or not imagen:
+            if not nombreNuevo or not precioNuevo:
                 flash('Ningún campo puede estar vacío', 'error')
                 return redirect(request.url)
                 
             # Verifica si el archivo cargado es válido
+            imagen = request.files['fImagen']
+            imagen_actual = request.form['fImagenActual']
+
             if imagen:
-            # Genera un nombre seguro para el archivo
+                # Se envió una nueva imagen, guarda la imagen como se hacía antes.
                 filename = secure_filename(imagen.filename)
                 imagen_guardada_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 imagen.save(imagen_guardada_path)
+                productoSeleccionado.nombreProducto = nombreNuevo
+                productoSeleccionado.precioProducto = precioNuevo
+                productoSeleccionado.nombreImagen = filename
+                
+                try:
+                    db.session.commit()
+                    flash('Producto editado', 'success')
+                    return redirect(url_for('auth.index'))
+                except IntegrityError:
+                    db.session.rollback()
+                    flash('Error al Editar producto', 'error')
+                    return redirect(request.url)
+                
+            elif not imagen:
+                filename = imagen_actual
                     
-                producto = productoSeleccionado(
-                    nombreProducto=nombreNuevo,
-                    precioProducto=precioNuevo,
-                    nombreImagen=filename  # Guarda el nombre del archivo en la base de datos
-                )
+                productoSeleccionado.nombreProducto = nombreNuevo
+                productoSeleccionado.precioProducto = precioNuevo
+                productoSeleccionado.nombreImagen = filename
                     
                 try:
-                    db.session.add(producto)
                     db.session.commit()
                     flash('Producto editado', 'success')
                     return redirect(url_for('auth.index'))
@@ -137,12 +145,30 @@ def edit():
         flash("No tienes permiso para ejecutar esta accion.", "error")
         return redirect(url_for('auth.index'))
     
-@bp.route('/producto-delete')
+@bp.route('/producto-delete/<int:idProducto>', methods=['GET', 'POST'])
 @login_required
-def delete():
-    if current_user.es_administrador:
-        # Esta ruta solo es accesible para el administrador
-        return render_template('ruta_exclusiva_admin.html')
+def delete(idProducto):
+    if current_user.es_administrador == 1:
+        productoSeleccionado = Producto.query.filter_by(idProducto=idProducto).first()
+        
+        # Verifica si el producto seleccionado y su imagen existen
+        if productoSeleccionado:
+            imagen_path = os.path.join('app/static/images/productos/', productoSeleccionado.nombreImagen)
+            if os.path.exists(imagen_path):
+                os.remove(imagen_path)
+            else:
+                flash('El archivo de imagen no existe', 'error')
+                return redirect(url_for('auth.index'))
+        else:
+            flash('El producto seleccionado no existe', 'error')
+        
+        # Elimina el producto de la base de datos
+        db.session.delete(productoSeleccionado)
+        db.session.execute(text("ALTER TABLE producto AUTO_INCREMENT = 0"))
+        db.session.commit()
+            
+        flash('Producto eliminado correctamente', 'success')
+        return redirect(url_for('auth.index'))
     else:
-        flash("No tienes permiso para ejecutar esta accion.", "error")
+        flash("No tienes permiso para ejecutar esta acción.", "error")
         return redirect(url_for('auth.index'))

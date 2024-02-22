@@ -2,4 +2,4 @@ from flask import Blueprint
 
 bp = Blueprint('main', __name__)
 
-from app.routes import categoria_has_product_routes, categoria_routes, orden_routes, payment_method_routes, pedido_routes, producto_routes, usuario_routes, auth_routes, usuario_has_orden_routes
+from app.routes import categoria_has_product_routes, categoria_routes, orden_routes, payment_method_routes, pedido_routes, producto_routes, usuario_routes, auth_routes, carrito_routes

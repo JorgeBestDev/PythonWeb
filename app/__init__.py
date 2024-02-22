@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+
 db = SQLAlchemy()
 login_manager = LoginManager()
 
@@ -31,8 +32,7 @@ def register_blueprints(app):
                             orden_routes, payment_method_routes,
                             pedido_routes, producto_routes,
                             usuario_routes, pais_routes,
-                            auth_routes,
-                            usuario_has_orden_routes)
+                            auth_routes, carrito_routes)
     app.register_blueprint(categoria_has_product_routes.bp)
     app.register_blueprint(categoria_routes.bp)
     app.register_blueprint(orden_routes.bp)
@@ -42,4 +42,4 @@ def register_blueprints(app):
     app.register_blueprint(usuario_routes.bp)
     app.register_blueprint(pais_routes.bp)
     app.register_blueprint(auth_routes.bp)
-    app.register_blueprint(usuario_has_orden_routes.bp)
+    app.register_blueprint(carrito_routes.bp)
