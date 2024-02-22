@@ -61,10 +61,17 @@
                 </div>
                 {% endif %}
                 <div>
-                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-0 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
-                        href="">
+                    <a class="btn btn-primary flex flex-row items-center hover:bg-gray-300 p-4 md:p-7 lg:p-7 lg:text-lg sm:text-base rounded transition "
+                        href="{{ url_for('carrito.index') }}">
                         <i class="fa-solid fa-cart-shopping mx-3" style="color: #000000;"></i>
                         <p class="hidden sm:contents md:contents lg:contents">Carrito</p>
+                        <h1>
+                            {% if cantidad_pedidos %}
+                            <p class="m-2 rounded-xl py-0 px-1 bg-black text-white font-bold">{{ cantidad_pedidos }}</p>
+                            {% else %}
+                            <p class="m-2 rounded-xl py-0 px-1 bg-black text-white font-bold">0</p>
+                            {% endif %}
+                        </h1>
                     </a>
                 </div>
             </div>

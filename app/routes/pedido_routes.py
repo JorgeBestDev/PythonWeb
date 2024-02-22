@@ -35,7 +35,7 @@ def add_to_cart(idProducto):
             
             pedido = Pedido(
                 productoForaneo=idProducto,
-                usuarioForeaneo=current_user.idUsuario,
+                usuarioForaneo=current_user.idUsuario,
                 cantidadPedido=cantidad,
                 totalPedido=totalPedido
             )
@@ -43,7 +43,7 @@ def add_to_cart(idProducto):
             db.session.commit()
             
             carrito = Carrito(
-                idPedido=pedido.idPedido
+                pedidoForaneo=pedido.idPedido
             )
             db.session.add(carrito)
             db.session.commit()

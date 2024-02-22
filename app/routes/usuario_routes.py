@@ -11,6 +11,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.security import check_password_hash, generate_password_hash
 from app import db, login_manager
 from app.models.usuario import Usuario
+from app.models.pedido import Pedido
 from app.models.pais import Pais
 
 
@@ -123,6 +124,11 @@ def dashboard():
     usuario = current_user
     paises = Pais.query.all()
     paisActual = usuario.country_obj
+    usuarioActual = current_user
+    if usuarioActual.is_authenticated:
+        cantidad_pedidos = Pedido.query.filter_by(usuarioForaneo=usuarioActual.idUsuario).count()
+    else:
+        cantidad_pedidos = 0
     return render_template(
-        "usuario/edit.html", usuario=usuario, paises=paises, paisActual=paisActual
+        "usuario/edit.html", usuario=usuario, paises=paises, paisActual=paisActual, cantidad_pedidos=cantidad_pedidos
     )

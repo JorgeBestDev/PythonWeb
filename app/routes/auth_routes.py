@@ -121,10 +121,9 @@ def index():
     print(contraseña_hash)
     productos = Producto.query.all()
     carrito = Carrito.query.all()
-    pedido=Pedido.query.all()
     usuarioActual = current_user
     if usuarioActual.is_authenticated:
-        cantidad_pedidos = Pedido.query.filter_by(usuarioForeaneo=usuarioActual.idUsuario).count()
+        cantidad_pedidos = Pedido.query.filter_by(usuarioForaneo=usuarioActual.idUsuario).count()
     else:
         cantidad_pedidos = 0
     

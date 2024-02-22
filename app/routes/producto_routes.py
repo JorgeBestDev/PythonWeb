@@ -1,4 +1,3 @@
-from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import (
     login_required,
     login_manager,
@@ -7,14 +6,16 @@ from flask_login import (
     logout_user,
     current_user,
 )
+from flask import Blueprint, render_template, flash, request, redirect, url_for
+from sqlalchemy.exc import IntegrityError
 from werkzeug.utils import secure_filename
 import os
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import text
-from werkzeug.security import check_password_hash, generate_password_hash
 from app import db, login_manager
 from app.config import UPLOAD_FOLDER
 from app.models.producto import Producto
+from app.models.pedido import Pedido
 
 from flask import current_app as app
 
@@ -41,7 +42,12 @@ def add():
     app=create_app()
     if current_user.es_administrador:
         if request.method == 'GET':
-            return render_template('administrador/producto/add.html')
+            usuarioActual = current_user
+            if usuarioActual.is_authenticated:
+                cantidad_pedidos = Pedido.query.filter_by(usuarioForaneo=usuarioActual.idUsuario).count()
+            else:
+                cantidad_pedidos = 0
+            return render_template('administrador/producto/add.html', cantidad_pedidos=cantidad_pedidos)
         elif request.method == 'POST':
             nombreProducto = request.form['fNombreProducto']
             precioProducto = request.form['fPrecioProducto']
@@ -89,7 +95,12 @@ def edit(idProducto):
     if current_user.es_administrador==1:
         if request.method=='GET':
             producto=Producto.query.filter_by(idProducto=idProducto).first()
-            return render_template('administrador/producto/edit.html', producto=producto)
+            usuarioActual = current_user
+            if usuarioActual.is_authenticated:
+                cantidad_pedidos = Pedido.query.filter_by(usuarioForaneo=usuarioActual.idUsuario).count()
+            else:
+                cantidad_pedidos = 0
+            return render_template('administrador/producto/edit.html', producto=producto, cantidad_pedidos=cantidad_pedidos)
         elif request.method=='POST':
             idProducto = request.form['fIdProducto']
             productoSeleccionado = Producto.query.filter_by(idProducto=idProducto).first()
