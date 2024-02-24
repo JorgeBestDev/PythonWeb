@@ -14,6 +14,7 @@ from app.models.usuario import Usuario
 from app.models.producto import Producto
 from app.models.carrito import Carrito
 from app.models.pedido import Pedido
+from app.models.payment_Method import PaymentMethod
 from sqlalchemy.exc import IntegrityError
 
 bp = Blueprint('carrito', __name__)
@@ -51,10 +52,11 @@ def index():
                 detalles_carrito['productos'].append(detalles_producto)
 
             detalles_carritos.append(detalles_carrito)
-            
+    metodos_Pago = PaymentMethod.query.all()    
+    metodo_usuario = PaymentMethod.query.filter_by(idPayment_method=current_user.paymentMethodForaneo).first()
 
 
-    return render_template('administrador/carrito/index.html', cantidad_pedidos=cantidad_pedidos, detalles_carritos=detalles_carritos)
+    return render_template('administrador/carrito/index.html', cantidad_pedidos=cantidad_pedidos, detalles_carritos=detalles_carritos,metodos_Pago=metodos_Pago,metodo_usuario=metodo_usuario)
 
 @bp.route('/carrito/eliminar_pedido/<int:pedido_id>', methods=['POST'])
 @login_required
@@ -65,24 +67,25 @@ def eliminar_pedido(pedido_id):
 
     return redirect(url_for('carrito.index'))
 
-@bp.route('/carrito/editar-producto/<int:pedido_id>', methods=['POST'])
+@bp.route('/editar-pedido/<int:pedido_id>', methods=['POST'])
 @login_required
 def editar_pedido(pedido_id):
+    pedido = Pedido.query.get_or_404(pedido_id)
+
     if request.method == 'POST':
-        carrito = Carrito.query.filter_by(pedidoForaneo=pedido_id).first()
+        action = request.form.get('action')
+        
+        if action == 'plus':
+            pedido.cantidadPedido += 1
+        elif action == 'minus':
+            if pedido.cantidadPedido > 1:
+                pedido.cantidadPedido -= 1
+            else:
+                # Si la cantidad llega a cero, elimina el pedido
+                db.session.delete(pedido)
+                db.session.commit()
+                return redirect(url_for('carrito.index'))
 
-        if carrito:
-            action = request.form.get('action')
+        db.session.commit()
 
-            if action == 'minus':
-                # Restar un producto al pedido
-                if carrito.pedidoForaneo.cantidadPedido > 1:
-                    carrito.pedidoForaneo.cantidadPedido -= 1
-            elif action == 'plus':
-                # Sumar un producto al pedido
-                carrito.pedidoForaneo.cantidadPedido += 1
-
-            # Guardar los cambios en la base de datos
-            db.session.commit()
-    
     return redirect(url_for('carrito.index'))

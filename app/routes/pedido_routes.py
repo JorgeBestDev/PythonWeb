@@ -33,20 +33,32 @@ def add_to_cart(idProducto):
             cantidad = int(request.form['fCantidad'])
             totalPedido = producto.precioProducto * cantidad
             
-            pedido = Pedido(
-                productoForaneo=idProducto,
-                usuarioForaneo=current_user.idUsuario,
-                cantidadPedido=cantidad,
-                totalPedido=totalPedido
-            )
-            db.session.add(pedido)
+            # Verifica si el producto ya está en el carrito
+            pedido_existente = Pedido.query.filter_by(productoForaneo=idProducto, usuarioForaneo=current_user.idUsuario).first()
+            if pedido_existente:
+                # Actualiza la cantidad del producto existente en el carrito
+                pedido_existente.cantidadPedido += cantidad
+                pedido_existente.totalPedido += totalPedido
+            else:
+                # Crea un nuevo pedido
+                pedido = Pedido(
+                    productoForaneo=idProducto,
+                    usuarioForaneo=current_user.idUsuario,
+                    cantidadPedido=cantidad,
+                    totalPedido=totalPedido
+                )
+                db.session.add(pedido)
+            
             db.session.commit()
             
-            carrito = Carrito(
-                pedidoForaneo=pedido.idPedido
-            )
-            db.session.add(carrito)
-            db.session.commit()
+            # Verifica si se agregó un nuevo pedido o se actualizó la cantidad del producto existente
+            if not pedido_existente:
+                # Crea un nuevo carrito si se agregó un nuevo pedido
+                carrito = Carrito(
+                    pedidoForaneo=pedido.idPedido
+                )
+                db.session.add(carrito)
+                db.session.commit()
             
             flash("Se ha agregado el producto al carrito de compras", 'success')
             return redirect(url_for('auth.index'))

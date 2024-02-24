@@ -12,6 +12,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from app import db, login_manager
 from app.models.usuario import Usuario
 from app.models.pedido import Pedido
+from app.models.payment_Method import PaymentMethod
 from app.models.pais import Pais
 
 
@@ -65,6 +66,16 @@ def edit():
             flash("No se puede editar usuario", "error")
             return redirect(request.url)
     return redirect(url_for("usuario.login"))
+
+@bp.route("dashboard/payment_method")
+@login_required
+def payment_methods():
+    if request.method=='GET':
+        metodos = PaymentMethod.query.filter_by(idPayment_method=current_user.paymentMethodForaneo).all()
+        return render_template('usuario/payment_methods/index.html', metodos=metodos)
+    elif request.method=='POST':
+        
+        return redirect(url_for('usuario.payment_methods'))
 
 
 @bp.route("/dashboard/delete", methods=["GET", "POST"])

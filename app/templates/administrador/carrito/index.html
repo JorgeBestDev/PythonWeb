@@ -131,15 +131,12 @@
                                     class="block text-sm font-medium leading-6 text-gray-900">Cantidad del
                                     Producto</label>
                                 <div class="mt-2">
-                                    <form class="flex flex-row items-center" method="post" action="{{ url_for('carrito.editar_pedido', pedido_id=carrito.pedido.idPedido )  }}">
-                                        <button type="submit">
-                                            <input type="hidden" name="action" value="minus">
+                                    <form class="flex flex-row items-center" method="post" action="{{ url_for('carrito.editar_pedido', pedido_id=carrito.pedido.idPedido ) }}">
+                                        <button type="submit" name="action" value="minus">
                                             <i class="fa-solid fa-minus px-4" style="color: #000000;"></i>
                                         </button>
-                                        
-                                        <p>{{ producto.cantidad }}</p>
-                                        <button type="submit">
-                                            <input type="hidden" name="action" value="plus">
+                                        <p class="cantidadProducto">{{ producto.cantidad }}</p>
+                                        <button type="submit" name="action" value="plus">
                                             <i class="fa-solid fa-plus px-4" style="color: #000000;"></i>
                                         </button>
                                     </form>
@@ -147,10 +144,12 @@
                             </div>
                             <form class="flex flex-row justify-between" action="{{ url_for('carrito.eliminar_pedido', pedido_id=carrito.pedido.idPedido ) }}" method="POST">
                                 <div class="sm:col-span-4 pb-2">
-                                    <label for="precioProducto" class="block text-sm font-medium leading-6 text-gray-900">Precio Producto</label>
+                                    <label class="block text-sm font-medium leading-6 text-gray-900">Precio Producto</label>
                                     <div class="mt-2">
                                         <div class="flex flex-row items-center">
-                                            {{ producto.precio }}
+                                            <p class="totalPagar">
+                                                {{ producto.precio }}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -171,36 +170,56 @@
 
             <div class="w-2/6 mt-10">
                 <div class="w-11/12 py-10 m-auto px-5 bg-white rounded-lg shadow-lg ">
-                    <h1 class="text-3xl m-7">Añadir Productos</h1>
+                    <h1 class="text-3xl m-7">Orden</h1>
                     <section id="productos" class="lg:w-full px-5">
 
                         <div class="sm:col-span-4 pb-2">
-                            <label for="nombreProducto" class="block text-sm font-medium leading-6 text-gray-900">Nombre
-                                del Producto</label>
-                            <div class="mt-2">
-                                <div class="flex flex-row items-center">
-                                    <input id="nombreProducto" name="fNombreProducto" type="text"
-                                        class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                </div>
-                            </div>
+                            <p class="block text-sm font-medium leading-6 text-gray-900">{{ current_user.nombreUsuario }}</p>
                         </div>
                         <div class="sm:col-span-4 pb-2">
-                            <label for="precioProducto" class="block text-sm font-medium leading-6 text-gray-900">Precio
-                                Producto</label>
-                            <div class="mt-2">
-                                <div class="flex flex-row items-center">
-                                    <input id="precioProducto" name="fPrecioProducto" type="number"
-                                        class=" block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                </div>
-                            </div>
+                            <p class="block text-sm font-medium leading-6 text-gray-900">
+                                {{ current_user.direccion }} <br> {{ current_user.estado }} {{ current_user.ciudad }} {{ current_user.codigoPostal }}
+                            </p>
+                        </div>
+                        <div class="sm:col-span-4 pb-2">
+                            <h1 id="resultado" class="block text-sm leading-6 text-gray-900 font-bold">
+                                <!-- Aquí va el total de la compra -->
+                            </h1>
                         </div>
                     </section>
+                    <div class="px-2">
+                        
+                        <h1 class="font-bold m-5">Metodos de Pago</h1>
+                        {% if not current_user.paymentMethodForaneo %}
+                        {% for metodo in metodos_Pago %}
+                        <div class="flex flex-col">
+                            <div class="flex flex-row">
+                                <input type="radio" name="metodo_de_pago" value={{metodo.idPayment_method}}>
+                                <p class="my-2 mx-3">{{ metodo.nombrePaymentMethod }}</p>
+                            </div>
+                            <div class="max-w-20">
+                                <img src="{{ url_for('static', filename='images/paymet_methods/' + metodo.imagen) }}" alt="Imagen">
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="flex flex-col">
+                            <div class="flex flex-row">
+                                <input type="radio" name="metodo_de_pago" value={{metodo_usuario.idPayment_method}}>
+                                <p class="my-2 mx-3">{{ metodo_usuario.nombrePaymentMethod }}</p>
+                            </div>
+                            <div class="max-w-20">
+                                <img src="{{ url_for('static', filename='images/paymet_methods/' + metodo_usuario.imagen) }}" alt="Imagen">
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
                     <div class="flex flex-col items-center my-3">
                         <button
                             class="w-1/2 h-1/4 flex justify-center p-3 m-3 cursor-pointer bg-green-100 text-green-600 rounded-md font-medium hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500"
                             type="submit"">
                                 <p class=" text-base md:text-lg lg:text-xl">
-                            Editar Producto
+                            Pagar
                             </p>
                         </button>
                     </div>
@@ -215,6 +234,23 @@
         <p>&copy; 2024 Tienda Online. Todos los derechos reservados.</p>
     </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // JavaScript para sumar los valores de las etiquetas <p> con la clase "totalPagar"
+        var totalPagar = document.querySelectorAll('p.totalPagar');
+        var cantidadProducto = document.querySelectorAll('p.cantidadProducto');
+        var suma = 0;
+    
+        totalPagar.forEach(function(total, index) {
+            var totalPagar = parseFloat(total.innerText.trim());
+            var cantidad = parseInt(cantidadProducto[index].innerText.trim());
+            if (!isNaN(totalPagar) && !isNaN(cantidad)) {
+                suma += totalPagar * cantidad;
+            }
+        });
+    
+        // Mostrar el resultado dentro del elemento con id "resultado"
+        document.getElementById("resultado").innerText = "Total a Pagar: " + suma.toFixed(2);
+    </script>
     <script>
         function previewImage(event) {
             const preview = document.getElementById('preview-image');
