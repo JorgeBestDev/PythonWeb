@@ -211,6 +211,9 @@
                             <div class="max-w-20">
                                 <img src="{{ url_for('static', filename='images/paymet_methods/' + metodo_usuario.imagen) }}" alt="Imagen">
                             </div>
+                            <div class="mt-3">
+                                <a class="text-cyan-500 underline" href="{{ url_for('usuario.payment_methods') }}">Otro? Actualiza tus metodos de pago</a>
+                            </div>
                         </div>
                         {% endif %}
                     </div>

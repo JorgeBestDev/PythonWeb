@@ -67,14 +67,51 @@ def edit():
             return redirect(request.url)
     return redirect(url_for("usuario.login"))
 
-@bp.route("dashboard/payment_method")
+@bp.route("/dashboard/payment_method", methods=["GET", "POST"])
 @login_required
 def payment_methods():
+    if current_user.is_authenticated:
+        cantidad_pedidos = Pedido.query.filter_by(usuarioForaneo=current_user.idUsuario).count()
+    else:
+        cantidad_pedidos = 0
+    metodos_Pago = PaymentMethod.query.all()    
+    metodo_pago_usuario = PaymentMethod.query.filter_by(idPayment_method=current_user.paymentMethodForaneo).first()  
     if request.method=='GET':
-        metodos = PaymentMethod.query.filter_by(idPayment_method=current_user.paymentMethodForaneo).all()
-        return render_template('usuario/payment_methods/index.html', metodos=metodos)
+        return render_template('usuario/payment_methods/index.html', cantidad_pedidos=cantidad_pedidos,metodo_pago_usuario=metodo_pago_usuario, usuario=current_user, metodos_Pago=metodos_Pago)
     elif request.method=='POST':
+        action = request.form['action']
+        metodoNuevo = request.form['metodo_de_pago']
+        if action=='delete_payment_method':
+            try:
+                
+                if current_user.paymentMethodForaneo:
+                    
+                    # Eliminar el método de pago del usuario
+                    current_user.paymentMethodForaneo=None
+                    db.session.commit()
+                    flash('Método de pago eliminado correctamente', 'success')
+                else:
+                    flash('No se encontró el método de pago del usuario', 'error')
+            except IntegrityError:
+                db.session.rollback()
+            return redirect(url_for('usuario.payment_methods'))
+
         
+        
+        elif action =='edit_payment_method':
+            
+            
+            try:
+                current_user.paymentMethodForaneo= metodoNuevo
+                db.session.commit()
+                flash('Metodo de pago actualizado correctamente','success')
+                return redirect(url_for('usuario.payment_methods'))
+            except IntegrityError:
+                db.session.rollback()
+            flash("No se puede editar metodo", "error")
+            return redirect(url_for('usuario.payment_methods'))
+         
+            
         return redirect(url_for('usuario.payment_methods'))
 
 
