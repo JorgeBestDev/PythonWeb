@@ -65,5 +65,3 @@ def add_to_cart(idProducto):
         except (AttributeError, ValueError):
             flash("No fue posible realizar la operación, inténtelo nuevamente.", 'error')
             return redirect(url_for('auth.index'))
-        
-    return 'añadido al carrito'

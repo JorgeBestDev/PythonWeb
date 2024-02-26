@@ -105,8 +105,8 @@
     {% endif %}
     {% endwith %}
     <main class="main w-full m-auto flex justify-center">
-        <div class="flex flex-col w-11/12 justify-between xl:flex-row">
-            <div class="my-10 w-4/6">
+        <div class="flex lg:flex-row md:flex-row flex-col w-11/12 justify-between xl:flex-row">
+            <div class="my-10  lg:w-4/6">
                 {% for carrito in detalles_carritos %}
                 {% for producto in carrito.productos %}
                 <div class="flex flex-col lg:flex-row justify-center">
@@ -122,7 +122,7 @@
                             <!-- Código para mostrar la imagen -->
                         </aside>
                     </div>
-                    <div class="w-full mx-10 my-3 p-5 bg-white rounded-lg shadow-lg">
+                    <div class="lg:w-full md:w-11/12 mx-auto my-3 p-5 bg-white rounded-lg shadow-lg">
                         <h1 class="text-2xl m-7">{{ producto.nombre }}</h1>
                         <!-- Aquí puedes mostrar los detalles del pedido -->
                         <section id="productos" class="lg:w-full p-5">
@@ -168,7 +168,7 @@
 
 
 
-            <div class="w-2/6 mt-10">
+            <div class="lg:w-2/6 w-full mt-10">
                 <div class="w-11/12 py-10 m-auto px-5 bg-white rounded-lg shadow-lg ">
                     <h1 class="text-3xl m-7">Orden</h1>
                     <section id="productos" class="lg:w-full px-5">
@@ -218,13 +218,11 @@
                         {% endif %}
                     </div>
                     <div class="flex flex-col items-center my-3">
-                        <button
-                            class="w-1/2 h-1/4 flex justify-center p-3 m-3 cursor-pointer bg-green-100 text-green-600 rounded-md font-medium hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500"
-                            type="submit"">
-                                <p class=" text-base md:text-lg lg:text-xl">
-                            Pagar
+                        <a href="{{ url_for('orden.index') }}" class="w-1/2 h-1/4 flex justify-center p-3 m-3 cursor-pointer bg-green-100 text-green-600 rounded-md font-medium hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500">
+                            <p class=" text-base md:text-lg lg:text-xl">
+                                Pagar
                             </p>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

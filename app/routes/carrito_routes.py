@@ -54,8 +54,6 @@ def index():
             detalles_carritos.append(detalles_carrito)
     metodos_Pago = PaymentMethod.query.all()    
     metodo_usuario = PaymentMethod.query.filter_by(idPayment_method=current_user.paymentMethodForaneo).first()
-
-
     return render_template('administrador/carrito/index.html', cantidad_pedidos=cantidad_pedidos, detalles_carritos=detalles_carritos,metodos_Pago=metodos_Pago,metodo_usuario=metodo_usuario)
 
 @bp.route('/carrito/eliminar_pedido/<int:pedido_id>', methods=['POST'])
