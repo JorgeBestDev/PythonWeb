@@ -110,7 +110,6 @@ def payment_methods():
                 db.session.rollback()
             flash("No se puede editar metodo", "error")
             return redirect(url_for('usuario.payment_methods'))
-         
             
         return redirect(url_for('usuario.payment_methods'))
 
