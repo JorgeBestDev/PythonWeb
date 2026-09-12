@@ -1,0 +1,70 @@
+# =========================
+# Entorno virtual
+# =========================
+venv/
+.venv/
+env/
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# =========================
+# Variables de entorno / secretos
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Bases de datos locales
+# =========================
+*.db
+*.sqlite
+*.sqlite3
+
+# =========================
+# Flask
+# =========================
+instance/
+
+# =========================
+# IDE / Editores
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# Sistema operativo
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# Tests / Coverage
+# =========================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# =========================
+# Build / distribución
+# =========================
+build/
+dist/
+*.egg-info/
+
+# =========================
+# Alembic
+# =========================
+# NO ignorar migrations/
+# Las migraciones deben subirse al repositorio
